@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/Hui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<style type="text/css">
+			.mui-bar {
+				-webkit-box-shadow: 1px 0px 3px rgba(0,0,0,0.7);
+				box-shadow: 1px 0px 3px rgba(0,0,0,0.7);
+			}
+			.H-display-block a {
+				color: #ccc
+			}
+			.mui-table-view-cell a {
+				color: #333
+			}
+		</style>
+		<script id="msglistTpl" type="text/x-dot-template">
+			{{~it:value:index}}
+			<div class="list" style="padding-top: 10px" tapmode onclick="openxiangqing({{=value}})">
+			<div class="bbs-item H-border-vertical-bottom-after">
+			<div class="H-flexbox-horizontal H-theme-background-color-white">
+			<div class="H-padding-vertical-both-8" tapmode onclick="event.stopPropagation();opengerenzhuye({{=value.userid}})">
+			<img src="../image/ad1.png" alt=""  {{? value.userimg}} data-echo="{{=value.userimg}}"{{? }} class=" H-display-block H-margin-horizontal-left-10 H-border-radius-circle H-width-45 H-height-45" />
+			</div>
+			<div class="H-flex-item H-margin-10">
+			<div class="H-theme-font-color-999 H-font-size-14 H-flexbox-horizontal H-text-horizontal-left H-box-sizing-border-box">
+			<span class="H-display-block H-flex-item H-text-align-left H-font-size-16"><span class="H-theme-font-color1">{{=value.username}}</span></span>
+			<span class="H-display-block H-flex-item H-text-align-right H-theme-font-color-999 H-font-size-12"><a class="mui-icon mui-icon-arrowdown" tapmode onclick="event.stopPropagation();scene();"></a></span>
+			</div>
+			<div class="H-theme-font-color-999 H-text-show-row-1 H-margin-vertical-top-2 H-font-size-12">
+			{{=_formatDate(value.updatedAt)}}
+			</div>
+			</div>
+			</div>
+			<div class="H-theme-background-color-white H-theme-font-color-333  H-font-size-16" style="padding: 2px 10px 10px 10px" onclick="">
+			{{=value.neirong}}
+			</div>
+			{{  if(value.tupian) { }}
+			<div id="{{=value.id}}" class="H-theme-background-color-white H-clear-both H-width-100-percent H-display-table H-box-sizing-border-box H-padding-horizontal-left-10 H-padding-horizontal-right-5" onclick="">
+			{{ for(var k in value.tupian) { }}
+			<li class="H-display-table-cell H-float-left  H-box-sizing-border-box H-width-avg-3 H-padding-horizontal-right-5 H-margin-vertical-bottom-5" data-key="{{=k}}" tapmode onclick="event.stopPropagation();imageBrowsertupian(this)">
+			<img  src="../image/zhanweitupian.jpg"   class="H-width-100-percent  H-display-block tupaingaodu" data-tupianurl="{{=value.tupian[k]}}" alt=""  data-echo="{{=value.tupian[k]+"?imageView2/1/w/200/h/200/q/100"}}"/>
+			</li>
+			{{ }  }}
+			</div>
+			{{ }  }}
+			<div class="H-flexbox-horizontal H-clear-both H-theme-background-color-white H-padding-8 H-box-sizing-border-box H-border-vertical-top-margin-both-10-after">
+			<span class="H-font-size-14 H-flex-item  H-center-all H-theme-font-color9 H-border-horizontal-right-after"><i class="H-iconfont H-icon-review-fill  H-font-size-18 H-margin-horizontal-right-5"></i><label class="H-display-inline-block H-vertical-middle">3</label></span>
+			<span class="H-font-size-14 H-flex-item  H-center-all"><i class="H-iconfont H-icon-like H-theme-font-color-ccc H-font-size-18 H-margin-horizontal-right-5"></i><label class="H-display-inline-block H-theme-font-color-ccc H-vertical-middle">3</label></span>
+			<span class="H-font-size-14 H-flex-item  H-center-all  H-border-horizontal-left-after"><i class="H-iconfont H-icon-ding-null H-theme-font-color-ccc H-font-size-18 H-margin-horizontal-right-5"></i><label class="H-display-inline-block H-theme-font-color-ccc H-vertical-middle">3</label></span>
+			</div>
+			</div>
+			</div>
+	
+			{{~}}
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="aui-header" style="height: 1px;"></header>
+		
+		<div class="mui-content" style="padding-top: 0px;margin-top: 0" id="msglist">
+		
+				</div>
+			
+			<div class="H-padding-vertical-bottom-10"></div>
+			<script type="text/javascript" src="../script/winu-base.js"></script>
+			<script type="text/javascript" src="../script/mui.min.js"></script>
+			<script type="text/javascript" src="../script/echo.js"></script>
+			<script type="text/javascript" src="../script/api.js"></script>
+			<script type="text/javascript" src="../script/SHA1.js"></script>
+			<script type="text/javascript" src="../script/doT.min.js"></script>
+			<script type="text/javascript" src="../script/zepto.min.js"></script>
+			<script type="text/javascript">
+				var imageBrowser;
+				var shoujikuandu;
+				var shoujigaodu;
+				var tupiangaodu
+				var browerImgs = [];
+				//				Zepto(function($) {
+				//					// 绑定会话点击事件
+				//					$("#msglist").on("click", "li img", function() {
+				////						alert(typeof($(this).parent("div").attr("data-tupian").split(",")));
+				//						alert(typeof(JSON.stringify("[\""+$(name).parent("div").attr("data-tupian").replace(/,http/g,"\",\"http")+"\"]")));
+				//						//获取用户表自增ID
+				////						imageBrowser($(this).attr("data-key"), $(this).attr("data-tupian"));
+				//					});
+				//				});
+				function imageBrowsertupian(name) {
+					var browerImgs = [];
+					$(name).parent("div").children("li").each(function() {
+						// 将图片追加到数组中
+						browerImgs.push($(this).find("img").attr("data-tupianurl") + "?imageView2/4/w/" + shoujikuandu + "/h/" + shoujigaodu + "/interlace/1/q/100");
+					});
+					//					alert( typeof (browerImgs));
+					//				alert("[\""+$(name).parent("div").attr("data-tupian").replace(/,http/g,"\",\"http")+"\"]");
+					imageBrowser.openImages({
+						imageUrls : browerImgs,
+						showList : false,
+						activeIndex : $(name).attr("data-key")
+					});
+				}
+//
+//				function ceshi() {
+//					mui('.mui-popover').popover('hide');
+//				}
+
+				function scene() {
+					var dialogBox = api.require('dialogBox');
+					dialogBox.scene({
+						rect : {
+							w : 280,
+							h : 400
+						},
+						texts : {
+							okBtnTitle : '取消'
+						},
+						styles : {
+							bg : '#fff',
+							title : {
+								bg : '#fff',
+								h : 1,
+								size : 14,
+								color : '#000'
+							},
+							cell : {
+								bg : '#fff',
+								h : 48,
+								text : {
+									color : '#333',
+									size : 17
+								},
+							},
+						},
+						optionDatas : [{
+							text : '收藏'
+						}, {
+							text : '关注TA'
+						}, {
+							text : '关注该分类'
+						}, {
+							text : '屏蔽TA'
+						}, {
+							text : '屏蔽该分类'
+						}, {
+							text : '举报'
+						}, {
+							text : '取消'
+						}]
+					}, function(ret, err) {
+						if (ret) {
+							alert(JSON.stringify(ret));
+							var dialogBox = api.require('dialogBox');
+							dialogBox.close({
+								dialogName : 'scene'
+							});
+						} else {
+							alert(JSON.stringify(err));
+							var dialogBox = api.require('dialogBox');
+							dialogBox.close({
+								dialogName : 'scene'
+							});
+						}
+					});
+				}
+
+				//				function OpenBbs(id) {
+				//					H.openWin('info_head', 'info_head.html', {
+				//						'id' : id
+				//					});
+				//				}
+				apiready = function() {
+					shoujikuandu = api.winWidth;
+					shoujigaodu = api.winHeight;
+					tupiangaodu = (api.winWidth - 20) / 3;
+					//				$("li  img").css("height",tupiangaodu);
+					imageBrowser = api.require('imageBrowser');
+					//
+					//				tupiangaodu=(api.winWidth-20)/3;
+					//				alert(tupiangaodu);
+					//				$api.css($api.byId("tupian"),"height:130px");
+					//				$("#tupian").css("height",tupiangaodu);
+					getdate();
+					api.setRefreshHeaderInfo({
+						visible : true,
+						loadingImg : 'widget://image/refresh.png',
+						bgColor : '#fff',
+						textColor : '#ccc',
+						textDown : '下拉刷新...',
+						textUp : '松开刷新...',
+						showTime : true
+					}, function(ret, err) {
+						//				setTimeout(function() {
+						getdate();
+						api.refreshHeaderLoadDone()
+						//				}, 3000);
+					});
+				}
+				function getdate() {
+					var bodyParam = {
+						'fields' : {
+							'username' : true,
+							'id' : true,
+							'userimg' : true,
+							'imToken' : true,
+						},
+					};
+					$api.ajax('/fabu/', 'get', null, function(ret, err) {
+						if (ret) {
+							//							alert(JSON.stringify(ret[0]));
+							//							alert(JSON.stringify(ret[0].tupian));
+							var interText = doT.template($("#msglistTpl").text());
+							$("#msglist").prepend(interText(ret));
+							echo.init({
+								offset : 100,
+								throttle : 250,
+								callback : function(element, op) {
+								}
+							});
+							api.parseTapmode();
+						}
+					})
+				}
+			</script>
+	</body>
+</html>

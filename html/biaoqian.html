@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+    <style type="text/css">
+    .aui-btn {
+        margin: 20px 0;
+    }
+    p {
+        margin-top: 25px;
+    }
+    </style>
+</head>
+<body>
+<!--<header class="mui-bar mui-bar-nav" id="header" >
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">标签</h1></header>-->
+		<div class="mui-content" style="padding: 0px;margin: 0px">
+		
+		<!--<ul class="mui-table-view mui-table-view-chevron" >
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-paperclip" style="font-size: inherit;" id="bmap">全部标签</a>
+			</li>
+		</ul>		-->
+		<ul class="mui-table-view" style="margin-top: 3px">
+		<li class="mui-table-view-cell mui-media mui-table-view-chevron" onclick="openquanbubiaoqian();">
+					<a class="mui-navigate-right">
+						<img class="mui-media-object mui-pull-left" src="../image/biaoqian.png">
+						<div class="mui-media-body" style="position:relative;bottom: -12px">
+							全部标签
+							
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-table-view-chevron" id="addressView">
+					<a class="mui-navigate-right">
+						<img class="mui-media-object mui-pull-left" src="../image/biaoqian.png">
+						<div class="mui-media-body" style="position:relative;bottom: -12px">
+							京东地址选择器
+							
+						</div>
+					</a>
+				</li>
+			</ul>	
+    <div  class="aui-toast" style="display:none" id="default">
+        <i class="mui-icon mui-icon-checkmarkempty" style="font-size:60px;color: #007aff"></i>
+        <div class="aui-toast-content">发布成功</div>
+    </div>
+    <div  class="aui-toast"  style="display:none" id="loading">
+        <div class="mui-spinner" style="width: 35px;height: 60px;color: #007aff
+        "></div>
+        <div class="aui-toast-content">发布中</div>
+    </div>
+     </div>
+   
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/mui.min.js" ></script>
+<script type="text/javascript">
+    apiready = function(){
+        api.parseTapmode();
+      
+    var addressView = api.require('addressView');
+    addressView.open({
+        file_addr:'widget://res/district.txt',//数据源地址
+        selected_color:'#ff0000',//颜色
+        pro_id:410000,//省id
+        city_id:410100,//市id
+        dir_id:410104//区id
+    });
+    $api.addEvt($api.byId("addressView"), 'click', function () {
+        addressView.show({},function (ret,err) {
+            if(ret.status){
+                alert(JSON.stringify(ret));//返回值
+            }
+        });
+    });
+};
+
+    function showDefault(){
+    $api.css($api.byId("loading"),"display:none");
+        $api.css($api.byId("default"),"display:block");
+        setTimeout(function(){
+            $api.css($api.byId("default"),"display:none");
+        },2000)
+    }
+    function showLoading(){
+        $api.css($api.byId("loading"),"display:block");
+    }
+ 	function openquanbubiaoqian(){
+ 		api.openWin({
+	         name: 'fenlei',
+	         url : '../html/fenlei.html'
+         });
+ 	}
+        
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<style>
+			body {
+			}
+			.mui-bar-tab .mui-tab-item {
+				height: 42px;
+				font-size: 14px
+			}
+			.mui-bar {
+				border-top: 1px solid #efeff4
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="mui-bar mui-bar-tab" style="height: 42px;">
+			<a class="mui-tab-item mui-active" href="#tabbar"> <!--	<span class="mui-icon mui-icon-home"></span>--> <span class="mui-tab-label">关注</span> </a>
+			<a class="mui-tab-item" href="#tabbar-with-chat"> <!--	<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>--> <span class="mui-tab-label">聊天</span> </a>
+			<a class="mui-tab-item" href="#tabbar-with-contact"> <!--<span class="mui-icon mui-icon-contact"></span>--> <span class="mui-tab-label">资料</span> </a>
+			<a class="mui-tab-item" href="#tabbar-with-map"> <!--<span class="mui-icon mui-icon-gear"></span>--> <span class="mui-tab-label">设置</span> </a>
+		</nav>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.openFrame({
+				name : 'zhuye',
+				url : '../html/zhuye.html',
+				pageParam : {
+					id : api.pageParam.id,
+					name : api.pageParam.name,
+					img : api.pageParam.img
+				},
+				rect : {
+					x : 0,
+					y : 0,
+					w : api.winWidth,
+					h : api.winHeight - 40
+				}
+			});
+		};
+	</script>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<style>
+			body {
+			}
+		</style>
+	</head>
+	<body></body>
+	<header class="mui-bar mui-bar-nav" id="" >
+		<a class="mui-btn-link mui-pull-right" tapmode onclick="">设置</a>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode  onclick="api.closeWin();"></a>
+		<h1 class="mui-title" id="titletext">详情</h1>
+	</header>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<script type="text/javascript" src="../script/SHA1.js"></script>
+	<script type="text/javascript">
+		var uiChatBox = null;
+		var duixiangname = null;
+		var duixiangneirong = null;
+		apiready = function() {
+			uiChatBox = api.require('UIChatBox');
+			uiChatBox.open({
+				placeholder : '评论楼主：',
+				maxRows : 4,
+				emotionPath : 'widget://image/chatBox/emotion',
+				styles : {
+					inputBar : {
+						borderColor : '#d9d9d9',
+						bgColor : '#f2f2f2'
+					},
+					inputBox : {
+						borderColor : '#B3B3B3',
+						bgColor : '#FFFFFF'
+					},
+					emotionBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_face1.png'
+					},
+					keyboardBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_key1.png'
+					},
+				},
+			}, function(ret) {
+				//点击发送按钮文字
+				if (ret.eventType == 'send') {
+					uiChatBox.closeKeyboard();
+					uiChatBox.setPlaceholder({
+						placeholder : '评论楼主：'
+					});
+					// 广播开始发送，通知msg页面发送消息
+					if (duixiangname == null) {
+						var data = {
+							"userid" : $api.getStorage('accessToken'),
+							"username" : $api.getStorage('username'),
+							"userimg" : $api.getStorage('userimg'),
+							"neirong" : ret.msg
+						};
+					} else {
+						var data = {
+							"userid" : $api.getStorage('accessToken'),
+							"username" : $api.getStorage('username'),
+							"userimg" : $api.getStorage('userimg'),
+							"neirong" : ret.msg,
+							"duixiangname" : duixiangname,
+							"duixiangneirong" : duixiangneirong
+						};
+					}
+					//			var bodyParam = {'fields': {"friend": true},where:{ "id" :  userIdIM} };
+					$api.ajax('/fabu/' + api.pageParam.value + '/pinglun', 'post', data, function(ret, err) {
+						if (ret) {
+							//								alert(JSON.stringify(ret));
+							_sendEvent("sendpinglunsuccessed", {
+								retshuju : ret
+							});
+						}
+					});
+				}
+			});
+			// 监听输入框弹动事件
+			uiChatBox.addEventListener({
+				target : 'inputBar',
+				name : 'move'
+			}, function(ret, err) {
+				setChatInit("xiangqing-frm", ret.panelHeight + ret.inputBarHeight + (_isIOS() ? 0 : 10));
+			});
+			// 监听输入框改变事件
+			uiChatBox.addEventListener({
+				target : 'inputBar',
+				name : 'change'
+			}, function(ret, err) {
+				setChatInit("xiangqing-frm", ret.panelHeight + ret.inputBarHeight + (_isIOS() ? 0 : 10));
+			});
+			// 打开会话
+			//			var headerPos = $api.offset($api.byId('aui-header'));
+			//			_fixStatusBar("aui-header", function(headerPos) {
+			_openFrame("xiangqing-frm", "../html/xiangqing-frm.html", {
+				x : 0,
+				y : 44,
+				h : api.winHeight - 44 - (_isIOS() ? 50 : 44)
+			});
+			_addEventListener("sendpinglun", function(ret) {
+				if (ret && ret.value) {
+					duixiangname = ret.value.name;
+					duixiangneirong = ret.value.neirong
+					//隐藏加载图标
+					uiChatBox.setPlaceholder({
+						placeholder : '回复：@' + ret.value.name
+					});
+					uiChatBox.popupKeyboard();
+				}
+			});
+		};
+		function setChatInit(frameName, inputAreaHeight) {
+			api.setFrameAttr({
+				name : frameName,
+				rect : {
+					x : 0,
+					y : 44,
+					w : api.winWidth,
+					h : api.winHeight - 44 - inputAreaHeight
+				}
+			});
+			setTimeout(function() {
+				// 通知会话页面滚动到底部
+				api.sendEvent({
+					name : 'scrollButton',
+					extra : {}
+				});
+			}, 300);
+		}
+	</script>
+</html>

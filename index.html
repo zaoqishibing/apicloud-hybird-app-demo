@@ -1,0 +1,737 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>Hello APP</title>
+		<link rel="stylesheet" type="text/css" href="./css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/app.css"/>
+		<style>
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+		/*	.mui-control-content {
+				height: 150px;
+			}*/
+			.mui-bar .mui-segmented-control {
+				top: 7px;
+				text-align:center;
+				margin: 0 auto
+				}
+			.mui-segmented-control .mui-control-item {
+				line-height: 32px;
+				border-radius:16px
+			}
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			/*.mui-popover {
+			 height: 70%;
+			 width:50%;
+			 }*/
+			.mui-content {
+				padding: 10px;
+			}
+			.mui-table-view-cell:after {
+				height: 0px
+			}
+			.mui-bar-popover {
+				width: 25%
+			}
+		</style>
+	</head>
+	
+	<body>
+	<header id="header">
+	<div class="mui-bar mui-bar-nav" id="group">
+			<a class="mui-btn-link mui-pull-left mui-ellipsis" tapmode  onclick="citylist();" style="width: 14%"> <span style="font-size: inherit;" id="citylist">定位中..</span></a>
+			<a class="mui-btn-link mui-pull-right" tapmode  onclick="sousuo();" > <span class="mui-icon mui-icon-search" style="font-size: inherit;">搜索</span> </a>
+			<!--<a class="mui-title" href="#topPopover" style="color: #000" onclick="">消息圈<span class="mui-icon mui-icon-arrowdown" style="font-size: inherit;" id="dakai"></span></a>-->
+			<h1 id="segmentedControl" class="mui-segmented-control" >
+				<li class="mui-control-item " >
+				
+			</li>
+					<li class="mui-control-item mui-active" id="0" tapmode onclick="indextopbar(0)">
+				热度
+			</li>
+				
+					<li class="mui-control-item" id="1" tapmode onclick="indextopbar(1)">
+				关注
+			</li>
+			<li class="mui-control-item"  id="2" tapmode onclick="indextopbar(2)">
+				附近
+			</li>
+					<li class="mui-control-item ">
+				
+			</li>
+			
+				</h1>
+		</div>
+		<div class="mui-bar mui-bar-nav" id="city" style="display: none">
+			<a class="mui-btn mui-btn-blue mui-btn-link mui-pull-left" tapmode  onclick="closecitylist();">取消 </a>
+			<h1 class="mui-title">选择城市</h1>
+		</div>
+		<div class="mui-bar mui-bar-nav" id="biaoqian" style="display: none">
+		
+		<h1 class="mui-title">标签</h1>
+		</div>
+		<div class="mui-bar mui-bar-nav" id="tixing" style="display: none">
+			<a class="mui-btn-link mui-pull-right"  onclick="pop();">更多</a>
+			<!--<a class="mui-btn-link mui-pull-left" tapmode  onclick="openfriend();">添加好友</a>-->
+			<h1 class="mui-title">提醒</h1>
+		</div>
+		<div class="mui-bar mui-bar-nav" id="geren" style="display: none">
+			<a class="mui-btn-link mui-pull-right" href="#Popover_1">设置</a>
+			<a class="mui-btn-link mui-pull-left" tapmode  onclick="">发现群</a>
+			<h1 class="mui-title">我</h1>
+		</div>
+		</header>
+				
+			<!--<div id="Popover_1" class="mui-popover mui-bar-popover" >
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="./html/login_w.html">热门</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">关注</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">最新</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">附近</a>
+					</li>
+				</ul>
+			</div>
+		<div id="topPopover" class="mui-popover mui-bar-popover" style="height: 70%;width:50%;">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a  onclick="ceshi();"   href="#">热门</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="../html/login_w.html">关注</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a  onclick="open_reg();"  href="#">最新</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">附近</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">求助</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">广播</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">活动</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">商品</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">服务</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">调查</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>-->
+	<div  style="height:56px;background-color: #d0d0d0;width:100%;bottom: 0;position: absolute"></div>
+
+	</body>
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script type="text/javascript" src="./script/mui.min.js"></script>
+	<script type="text/javascript" src="./script/mycommon.js"></script>
+	<script type="text/javascript" src="./script/SHA1.js"></script>
+	<script type="text/javascript">
+	
+//	mui.init({
+//				swipeBack : true //启用右滑关闭功能
+//			});
+//			mui('.mui-scroll-wrapper').scroll();
+//			mui('body').on('shown', '.mui-popover', function(e) {
+//				console.log('shown', e.detail.id);//detail为当前popover元素
+//				$api.removeCls($api.byId('dakai'), 'mui-icon-arrowdown');
+//				$api.addCls($api.byId('dakai'), 'mui-icon-arrowup');
+//			});
+//			mui('body').on('hidden', '.mui-popover', function(e) {
+//				console.log('hidden', e.detail.id);//detail为当前popover元素
+//				$api.removeCls($api.byId('dakai'), 'mui-icon-arrowup');
+//				$api.addCls($api.byId('dakai'), 'mui-icon-arrowdown');
+//			
+
+
+		function openfriend(){
+		
+		api.openWin({
+	        name: 'friend',
+	        url: 'html/frm_friend_result.html'
+        });
+		
+		
+		
+		}
+		function shownevbar(x){
+			var $header = $api.byId('segmentedControl');
+			var $titleBar = $api.domAll($header, '.mui-control-item');
+			for (var i = 0; i < $titleBar.length; i++) {
+			$api.removeCls($titleBar[i], 'mui-active');
+			}   $api.addCls($api.byId(x), 'mui-active');
+
+		}
+		function indextopbar(index){
+			api.setFrameGroupIndex({
+	            name: 'group',
+	            index:index
+            });
+			
+			}
+			function setindex(){
+			var tuberBar = api.require('tuberBar');
+				tuberBar.setSelected({
+   				index: 0
+		});
+			
+			}
+			function pop (){
+			var mnPopups = api.require('MNPopups');
+mnPopups.open({
+    rect: {
+        w: 150,
+        h: 180
+    },
+    position: {       
+        x: api.winWidth-20,             
+        y: 60                           
+    },
+    styles: {
+        mask: 'rgba(0,0,0,0.2)',
+        bg: '#fff', 
+          corner: 5,                               
+        cell: {                            
+            bg:{
+                normal: '',              
+                highlight: ''            
+            },                   
+            h: 45,                         
+            title: {                      
+                marginL: 45,               
+                color: '#636363',          
+                size: 12,                 
+            },
+            icon: {                        
+                marginL: 10,               
+                w: 20,                     
+                h: 20,                     
+                corner: 2                  
+            }
+        },
+        pointer: {
+            size: 10,                     
+            xPercent: 90,                
+            yPercent: 0,                 
+            orientation: 'downward'
+        }
+    },
+    datas: [{                           
+        title: '添加朋友',  
+        icon: 'widget://image/chatBox_cam1.png'
+    },
+    {                           
+        title: '扫一扫',  
+        icon: 'widget://image/chatBox_cam1.png'
+    },
+    {                           
+        title: '摇一摇',  
+        icon: 'widget://image/chatBox_cam1.png'
+    },
+    {                           
+        title: '面对面快传',  
+        icon: 'widget://image/chatBox_cam1.png'
+    }],
+    animation: true
+}, function(ret) {
+    if (ret) {
+//      alert(JSON.stringify(ret));
+        if(ret.index==0){
+        openfriend();
+        }
+    }
+});
+			}
+		apiready=function(){
+		$api.text($api.byId("citylist"), $api.getStorage('city'));
+		api.addEventListener({
+    			name:'offline'
+				},function(ret,err){
+    		//operation
+    		alert("当前没有网络连接，请检查");
+				});
+			api.addEventListener({
+    			name:'online'
+		},function(ret,err){
+    	var connectionType = ret.connectionType;
+    	alert("当前网络连接正常");
+			});
+		api.addEventListener({
+                    name: 'keyback'
+                }, function(ret, err){
+                    api.toast({
+                            msg: '再按一次返回键退出'+api.appName,
+                            duration:2000,
+                            location: 'bottom'
+                        });
+                        
+                        api.addEventListener({
+                            name: 'keyback'
+                        }, function(ret, err){
+                        var data = {
+								
+								online:false
+							}
+                        $api.ajax('/user/' + $api.getStorage('accessToken'), 'put', data, function(ret, err) {
+								if (ret) {
+								
+//								api.toast({
+//	                                msg:'已退出'
+//                              });
+								api.closeWidget({
+                                    id: 'A6998037533225',  //填写自己的id   
+                                    retData: {name:'closeWidget'},
+                                    silent:true
+                                });
+								}
+								})
+                            
+                        });
+//                      setTimeout(function(){
+//                              exitApp();
+//                      },3000)
+                });
+			
+
+//	alert(api.getPhoneNumber)   
+	
+//			CreateDB('file');
+//				//创建本地数据库 friends
+//			setTimeout("CreateDB('friends')",200);
+			//本地数据库初始化完毕
+					api.openFrame({
+	                    name: 'geren',
+	                    url: './html/geren.html',
+	                   bounces : false,
+	                   vScrollBarEnabled: false,
+	 					hScrollBarEnabled: false,
+	                    rect: {
+			            x:0,
+			            y:51,
+			            w:api.winWidth,
+			            h:api.winHeight-55-51
+	                    }
+                    });	
+                    api.setFrameAttr({
+	            name:'geren',
+	            hidden:true
+            });
+           
+                    api.openFrame({
+	                    name: 'tixing',
+	                    url: './html/tixing.html',	
+	                    vScrollBarEnabled: false,
+	 					hScrollBarEnabled: false,                     reload:true,
+	                    bounces : true,
+	                    rect: {
+		                  x:0,
+		                  y:44,
+		                  w:api.winWidth,
+		                  h:api.winHeight-55-44
+	                    }
+                      });	
+                     api.setFrameAttr({
+	                   name:'tixing',
+	                   hidden:true
+               });
+           
+                    api.openFrame({
+	                    name: 'biaoqian',
+	                    url: './html/biaoqian.html',
+	                               vScrollBarEnabled: false,
+	 		hScrollBarEnabled: false,
+	                     bounces : true,
+	                   
+	                    rect: {
+		                   x:0,
+		            y:51,
+		            w:api.winWidth,
+		            h:api.winHeight-55-51
+	                    }
+                    });	
+                     api.setFrameAttr({
+	            name:'biaoqian',
+	            hidden:true
+            });
+           
+            
+                   api.openFrameGroup({
+						name: 'group',
+						scrollEnabled: true,
+						bounces: true,
+						rect: {
+						      	x:0,
+					            y:43,
+					            w:api.winWidth,
+					            h:api.winHeight-55-43
+						},
+						index:1,
+						frames: [
+						{
+						name: 'redu',
+						bounces:true,
+						url: 'html/redu.html'
+						},
+						{
+						name: 'guanzhu',
+						bounces:true,
+						url: 'html/guanzhu.html'
+						},
+						{
+						name: 'fujin',
+						bounces:true,
+						url: 'html/fujin.html'
+						}
+						]
+						},function(ret,err){
+						if(ret){
+						shownevbar(ret.index);
+						}
+						});
+
+            
+		var obj = api.require('tuberBar');
+			obj.open({
+				bg:"#fafafa",
+				h:55,
+				buttons:[{frame:{w:28,h:28},title:"消息圈", titleSize:10,normal:"widget://image/iconfont-weizhi.png",titleSelected:"#007aff",selected:"widget://image/iconfont-weizhi2.png"},
+				{frame:{w:30,h:30},title:"标签",titleSize:10,normal:"widget://image/tongxunlu.png",titleSelected:"#007aff",selected:"widget://image/tongxunlu1.png"},
+				{frame:{w:29,h:29},title:"发布",titleSize:10,normal:"widget://image/iconfont-jiahao2fill.png",titleSelected:"#007aff",selected:"widget://image/iconfont-jiahao2fill.png"},
+				{frame:{w:28,h:28},title:"提醒",titleSize:10,normal:"widget://image/tixing.png",titleSelected:"#007aff",selected:"widget://image/tixing1.png"},
+				{frame:{w:26,h:26},title:"我",titleSize:10,normal:"widget://image/wode.png",titleSelected:"#007aff",selected:"widget://image/wode1.png"
+				}]},function(ret, err) {
+					if (ret) {
+						if (ret.index == 0) { 				
+							api.setFrameAttr({
+					            name: 'geren',
+					            hidden:true
+				            });
+				            api.setFrameAttr({
+					            name: 'tixing',
+					            hidden:true
+				            });
+				            api.setFrameAttr({
+					            name: 'biaoqian',
+					            hidden:true
+				            });
+				           api.setFrameGroupAttr({
+								name: 'group',
+								hidden:false
+								});
+				
+							var $titleBar = $api.domAll('#header div');
+							for (var i = 0; i <$titleBar.length ; i++) {
+						$api.css($titleBar[i], 'display:none');}
+						$api.css($api.byId('group'), 'display:block');
+						}
+						if (ret.index == 1) {
+						  bianhuan("biaoqian",'geren','tixing','group')
+						}
+						if (ret.index == 2) {
+//						var obj = api.require('actionButton');
+//							obj.open({
+//							bg:'widget://image/ceshit1.png',
+//							items:[{bgColor:'#ef6e5d',title:'求助/任务',titleColor:"#989898",image:'widget://res/iconfont-aixin (1).png'},
+//							{bgColor:'#e9809a',title:'广播/新闻',titleColor:"#989898",image:'widget://res/iconfont-comiisguangbo.png'},
+//							{bgColor:'#fea200',title:'活动/招聘',titleColor:"#989898",image:'widget://res/iconfont-huodong.png'},
+//							{bgColor:'#e5507a',title:'商品/住房',titleColor:"#989898",image:'widget://res/iconfont-shangpin.png'},
+//							{bgColor:'#3bba82',title:'服务/技能',titleColor:"#989898",image:'widget://res/iconfont-fuwu.png'},
+//							{bgColor:'#56abe4',title:'调查/投票',titleColor:"#989898",image:'widget://res/iconfont-diaochawenjuan.png'},
+//							],
+//							size:80,
+//							shake:true,
+//							blowUp:true,
+//							matrix:{
+//							row:  2   , //（可选项）每屏幕显示的按钮行数，数字类型，默认2
+//							column:  3  ,  //（可选项）每屏幕显示的按钮列数，数字类型，默认3
+//							bottomMargin:20//（可选项）底排按钮下边缘距离模块视图底端高度占h的百分比,数字类型,默认40        取值范围 0 ~ 100
+//							}
+//							//pageControl:{activeColor:'#007aff'}
+//							},function(ret,err){
+							//api.alert({msg:ret.index});
+							api.openWin({
+							name : 'dongzuo',
+							url : './html/dongzuo.html',
+							pageParam:{
+							index:ret.index
+							},
+							progress:{
+						    	type:"page",                //加载进度效果类型，默认值为default，取值范围为default|page，default等同于showProgress参数效果；为page时，进度效果为仿浏览器类型，固定在页面的顶部
+						    	color:"#007aff"                //type为page时进度条的颜色，默认值为#45C01A，支持#FFF，#FFFFFF，rgb(255,255,255)，rgba(255,255,255,1.0)等格式
+								},
+							animation:{
+						    type:"none",                //动画类型（详见动画类型常量）
+						    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+						    duration:500                //动画过渡时间，默认300毫秒
+								}
+							
+							});
+//						});
+	
+						}
+						if (ret.index == 3) {
+						  bianhuan("tixing",'geren','biaoqian','group')
+						}
+						if (ret.index == 4) {
+						   bianhuan('geren','tixing','biaoqian','group')
+						}
+						}
+	
+						})
+						/**
+			 *========================极光推送==============>>>
+			 */
+//			var ajpush = api.require('ajpush');
+//			api.addEventListener({
+//				name : 'appintent'
+//			}, function(ret, err) {
+//				if (ret && ret.appParam.ajpush) {
+//					var jpush = ret.appParam.ajpush;
+//					var jsonStr = JSON.parse(jpush.extra);
+//					var type = jsonStr.type;
+//					var id = jsonStr.txt;
+//					api.openWin({
+//						name : 'name',
+//						url : 'html/user/setingPage.html',
+//						opaque : true,
+//						vScrollBarEnabled : false,
+//						pageParam : {
+//							yw_id : id
+//						}
+//					});
+//				}
+//			});
+//			//两个监听事件
+//			var ajpush = api.require('ajpush');
+//			api.addEventListener({
+//				name : 'pause'
+//			}, function(ret, err) {
+//				ajpush.onResume();
+//				//监听应用进入后台，通知jpush暂停事件
+//			});
+//			api.addEventListener({
+//				name : 'resume'
+//			}, function(ret, err) {
+//				ajpush.onResume();
+//				//监听应用恢复到前台，通知jpush恢复事件
+//			});
+//			var ajpush = api.require('ajpush');
+//			ajpush.init(function(ret) {
+//				if (ret && ret.status) {
+//				}
+//			});
+//			//给机子设置别名
+//			var user = $api.getStorage('user');
+//			var param = {
+//				alias : user
+//			};
+//			ajpush.bindAliasAndTags(param, function(ret) {
+//				//alert('别名设置成功');
+//			});
+			/**
+			 * ==========极光推送结束=====================>>>>>
+			 */
+
+				
+						}
+	 function goPageLogin() {
+			api.openWin({
+				name : 'login_w',
+				url : './html/login_w.html',
+				bounces : false
+			});
+		};
+	function bianhuan(framename1,framename2,framename3,groupname){
+//		api.bringFrameToFront({
+//			from: framename
+//			});
+			api.setFrameAttr({
+	            name: framename1,
+	            hidden:false
+            });
+            api.setFrameAttr({
+	            name: framename2,
+	            hidden:true
+            });
+            api.setFrameAttr({
+	            name: framename3,
+	            hidden:true
+            });
+           api.setFrameGroupAttr({
+				name: groupname,
+				hidden:true
+				});
+
+			var $titleBar = $api.domAll('#header div');
+			for (var i = 0; i <$titleBar.length ; i++) {
+		$api.css($titleBar[i], 'display:none');}
+		$api.css($api.byId(framename1), 'display:block');
+	}
+	function citylist() {
+				var city = $api.getStorage('city');
+				$api.css($api.byId("xiaoxiquan"), 'display:none');
+				$api.css($api.byId("city"), 'display:block');
+				var header = $api.byId('city');
+				var headerPos = $api.offset(header);
+				var UICityList = api.require('UICityList');
+				UICityList.open({
+					rect : {
+						x : 0,
+						y : headerPos.h + 1,
+						w : api.winWidth,
+						h : api.winHeight
+					},
+					resource : 'widget://res/UICityList.json',
+					styles : {
+						searchBar : {
+							bgColor : '#efeff4',
+							cancelColor : '#E3E3E3'
+						},
+						location : {
+							color : '#696969',
+							bgColor : '#f0f0f0',
+							size : 16
+						},
+						sectionTitle : {
+							bgColor : '#eee',
+							color : '#007aff',
+							size : 16
+						},
+						item : {
+							bgColor : '#fff',
+							activeBgColor : '#ccc',
+							color : '#444',
+							size : 16,
+							height : 40
+						},
+						indicator : {
+							bgColor : '#f0f0f0',
+							color : '#007aff'
+						}
+					},
+					currentCity : city,
+					locationWay : '当前所在城市',
+					hotTitle : '热门城市',
+					placeholder : '输入城市名或首字母查询'
+				}, function(ret, err) {
+					if (ret.eventType == 'selected') {
+						$api.css($api.byId("xiaoxiquan"), 'display:block');
+						$api.css($api.byId("city"), 'display:none');
+						$api.text($api.byId("citylist"), ret.cityInfo.city);
+						UICityList.close();
+					}
+				});
+			}
+			function sousuo() {
+				var obj = api.require('UISearchBar');
+				obj.open({
+					placeholder : '请输入搜索关键字',
+					historyCount : 10,
+					showRecordBtn : false,
+					texts : {
+						cancelText : '取消',
+						clearText : '清除搜索记录'
+					},
+					styles : {
+						navBar : {
+							bgColor : '#fff',
+							borderColor : '#bbb'
+						},
+						searchBox : {
+							bgImg : "widget://image/1454488185.jpg",
+							color : '#555',
+							height : 30
+						},
+						cancel : {
+							bg : '#fff',
+							color : '#333',
+							size : 18
+						},
+						list : {
+							color : '#aaa',
+							bgColor : '#FFFFFF',
+							borderColor : '#eee',
+							size : 14
+						},
+						clear : {
+							color : '#bbb',
+							borderColor : '#eee',
+							size : 14
+						}
+					}
+				}, function(ret) {
+					if (ret.eventType == 'record') {
+						api.alert({
+							msg : '点击了录音按钮'
+						});
+					} else if (ret.eventType == 'search') {
+						api.alert({
+							msg : '点击了搜索按钮'
+						});
+					} else if (ret.eventType == 'history') {
+						api.alert({
+							msg : '点击了历史记录'
+						});
+					} else {
+						api.openFrame({
+							name : 'sousuoframe',
+							url : 'html/sousuoframe',
+							rect : {
+								x : 0,
+								y : 90,
+								w : api.winWidth,
+								h : api.winHeight - 90
+							}
+						});
+					}
+				});
+			}
+			function closecitylist() {
+				var UICityList = api.require('UICityList');
+				UICityList.close();
+				$api.css($api.byId("xiaoxiquan"), 'display:block');
+				$api.css($api.byId("city"), 'display:none');
+			}
+		
+</script>
+</html>

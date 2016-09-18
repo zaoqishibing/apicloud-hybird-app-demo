@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>好友搜索结果-frm</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<style>
+			img {
+			border-radius: 50%;
+			}
+			.aui-user-view-cell {
+			position: relative;
+			padding: 5px 2px 3px 15px;
+			overflow: hidden;
+			}
+			.aui-user-view-cell .aui-img-object.aui-pull-left {
+			margin-right: 15px;
+			}
+			.aui-user-view-cell .aui-img-object {
+			max-width: 55px !important;
+			height: 55px !important;
+			line-height: 55px !important;
+			border-radius: 50%;
+			}
+			p {
+			font-size: 14px;
+			margin-top: 3px;
+			margin-bottom: 7px;
+			color: #8f8f94;
+			float: left;width: 86%
+			}
+			.aui-pull-left {
+			float: left !important;
+			}
+			.aui-user-view-cell .aui-img-body {
+			overflow: hidden;
+			}
+			.aui-user-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 70px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc;
+			}
+			/*.aui-user-view-cell:last-child:after {
+			border-bottom: 1px solid #c8c7cc;
+			}*/
+			.aui-user-view {
+			position: relative;
+			padding-left: 0;
+			margin-top: 0;
+			margin-bottom: 15px;
+			list-style: none;
+			background-color: #fff;
+			}
+			.aui-img-body{
+			padding-top:7px
+			}
+			.mui-badge {
+			margin-top: 2px;
+			}
+			.aui-img-body span{
+			float: left;width: 83%
+			}
+			.mui-badge .mui-badge-danger{
+			float: right;
+			}
+		</style>
+	</head>
+	<body>
+	<header class="mui-bar mui-bar-nav" id="header" >
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode onclick="api.closeWin();"></a>
+		<h1 class="mui-title">联系人</h1></header>
+		<div class="mui-content">
+			<ul id="userList" class="aui-user-view">
+		<!--		<li class="aui-user-view-cell aui-img" tapmode="tap-active" data-id="33333" data-conversationType="PRIVATE" data-targetId="target-id" data-targetName="username" data-photo="../image/ad1.png" data-imToken="imToken" data-createAt="createAt">
+					<img class="aui-img-object aui-pull-left" src="http://7xrbyt.com1.z0.glb.clouddn.com/apicloud/8e80d03796a826437b9ae7a5a61cf4e2.jpg">
+					
+					<div class="aui-img-body">
+						<span  class="mui-ellipsis">你是谁啊</span>
+						<div class="mui-badge" style="background-color:#fff;">
+							11:05
+						</div>
+						<p  class="mui-ellipsis">
+							createdAtwerwetretertertretertert
+						</p>
+						<div class="mui-badge mui-badge-danger">
+							45
+						</div>
+					</div>
+				</li>-->
+				<li class="aui-user-view-cell aui-img" tapmode="tap-active" data-id="33333" data-conversationType="PRIVATE" data-targetId="target-id" data-targetName="username" data-photo="../image/ad1.png" data-imToken="imToken" data-createAt="createAt">
+					<img class="aui-img-object aui-pull-left" src="http://7xrbyt.com1.z0.glb.clouddn.com/apicloud/8e80d03796a826437b9ae7a5a61cf4e2.jpg">
+					<!-- 暂时未加入imageCache -->
+					<div class="aui-img-body">
+						<span>nickname<em></em></span>
+						<p class="mui-ellipsis">
+							用户简介123
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<!--<script id="userList_tmpl" type="text/x-dot-template">
+	{{~ it :itI}}
+	<li class="mui-table-view-cell mui-media" tapmode="tap-active" data-id="{{=itI.id}}" data-conversationType="PRIVATE" data-targetId="{{=itI.username}}" data-targetName="{{=itI.username}}" data-photo="{{=itI.userimg}}" data-imToken="{{=itI.imToken}}" data-createAt="{{=itI.createAt}}">
+	<div class="mui-slider-right mui-disabled">
+	<a class="mui-btn mui-btn-red">取关</a>
+	<a class="mui-btn mui-btn-yellow">屏蔽</a>
+	</div>
+	<div class="mui-slider-handle" >
+	{{? itI.userimg == null}}
+	<img class="mui-media-object mui-pull-left" src="../image/ad1.png">
+	{{??}}
+	<img class="mui-media-object mui-pull-left" src="{{= itI.userimg}}">
+	<div class="mui-media-body">
+	<p class='mui-ellipsis'>
+	{{=itI.createdAt}}
+	</p>
+	</div>
+	</div>
+	</li>
+	{{~}}
+	</script>-->
+	<!-- ["id", "username", "email", "nickname", "gender", "photo", "imtoken"] -->
+	<script id="userList_tmpl" type="text/x-dot-template">
+		{{~ it :itI}}
+		<li class="aui-user-view-cell aui-img" tapmode="" data-id="{{=itI.id}}" data-conversationType="PRIVATE" data-targetId="{{=itI.id}}" data-targetName="{{=itI.username}}" data-photo="{{=itI.userimg}}" data-imToken="{{=itI.imToken}}" data-createAt="{{=itI.createAt}}">
+		{{? itI.userimg == null}}
+		<img class="aui-img-object aui-pull-left" src="../image/ad1.png">
+		{{??}}
+		<img class="aui-img-object aui-pull-left" src="{{= itI.userimg}}">
+		<!-- 暂时未加入imageCache -->
+		{{?}}
+		<div class="aui-img-body">
+		<span>{{= itI.username}}</span>
+		<p class="mui-ellipsis">{{=itI.createdAt}}</p>
+		</div>
+		</li>
+		{{~}}
+	</script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../script/aui-alert.js"></script>
+	<script type="text/javascript" src="../script/APICloud-rest-SHA1.js"></script>
+	<!--<script type="text/javascript" src="../script/APICloud-rest.js"></script>-->
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<script type="text/javascript" src="../script/linq.min.js"></script>
+	<script type="text/javascript" src="../script/mycommon.js"></script>
+	<script type="text/javascript">
+		var UISearchBar, query, model;
+		var userList = $api.dom('#userList');
+		var page = 1, userJson = null;
+		//屏蔽可容差错误
+		window.onerror = function() {
+			return true;
+		}
+		Zepto(function($) {
+			// 绑定会话点击事件
+			$("#userList").on("click", "li", function() {
+				//获取用户表自增ID
+				var data_id = $(this).attr("data-id");
+				//alert(data_id);
+				// 获取会话类型
+				var conversationType = $(this).attr("data-conversationType");
+				// 获取目标ID
+				var targetId = $(this).attr("data-targetId");
+				// 获取目标名称
+				var targetName = $(this).attr("data-targetName");
+				//获取照片信息
+				var photo = $(this).attr("data-photo");
+				//获取token信息
+				var imToken = $(this).attr("data-imToken");
+				//获取创建时间
+				var createAt = $(this).attr("data-createAt");
+				// 打开会话页面
+			
+				alertTxt(data_id, conversationType, targetId, targetName, photo, imToken, createAt);
+			});
+		});
+		apiready = function() {
+			window.db = api.require('db');
+			api.parseTapmode();
+			//!@ 创建本地数据库 friends  如果没有，这一步不许在这里面先做，要不会报错
+			//			ExecuteSql('friends', 'create table if not exists Friends(id int primarykey auto_increment, username varchar(255), user_number varchar(255));');
+			UISearchBar = api.require('UISearchBar');
+			query = api.require("query");
+			model = api.require("model");
+			openSearch();
+			api.addEventListener({
+				name : 'openSearchbar'
+			}, function(ret) {
+				if (ret && ret.value) {
+					openSearch();
+				}
+			});
+		};
+		function openSearch() {
+			UISearchBar.open({
+				placeholder : '请输入搜索关键字',
+				historyCount : 10,
+				showRecordBtn : false,
+				texts : {
+					cancelText : '取消',
+					clearText : '清除搜索记录'
+				},
+				styles : {
+					navBar : {
+						bgColor : '#FFFFFF',
+						borderColor : '#ccc'
+					},
+					searchBox : {
+						bgImg : '',
+						color : '#000',
+						height : 44
+					},
+					cancel : {
+						bg : 'rgba(0,0,0,0)',
+						color : '#D2691E',
+						size : 16
+					},
+					list : {
+						color : '#696969',
+						bgColor : '#FFFFFF',
+						borderColor : '#eee',
+						size : 16
+					},
+					clear : {
+						color : '#000000',
+						borderColor : '#ccc',
+						size : 16
+					}
+				}
+			}, function(ret) {
+				if (ret.eventType == 'record') {
+					// api.alert({msg: '点击了录音按钮'});
+				} else if (ret.eventType == 'search') {
+					// api.alert({msg: '点击了搜索按钮::::'+ ret.text});
+					_showProgress('提示', '正在加载好友列表');
+					searchByMcm(ret.text);
+				} else if (ret.eventType == 'history') {
+					_showProgress('提示', '正在加载好友列表');
+					// api.alert({msg: '点击了历史记录::::'+ ret.text});
+					searchByMcm(ret.text);
+				} else {
+					// alert(ret.text);
+				}
+			});
+		};
+		// 搜索
+		function searchByMcm(text, type) {
+			var bodyParam = {
+				skip : 0,
+				'fields' : {
+					'username' : true,
+					'id' : true,
+					'userimg' : true,
+					'imToken' : true,
+					'sex' : true,
+					'createdAt' : true
+				},
+				order : 'createdAt DESC',
+				where : {
+					"username" : text
+				}
+			};
+			$api.ajax('/user?filter=' + JSON.stringify(bodyParam), 'get', null, function(ret, err) {
+				if (ret) {
+					showList(ret, true);
+				} else {
+					alert("结果为空");
+				}
+			})
+			};
+			//				var skip = 0;
+			//		var limit = 20;
+			//			// alert(text)
+			//			query.createQuery(function(ret, err) {
+			//				if (ret && ret.qid) {
+			//					var queryId = ret.qid;
+			//					query.whereLike({
+			//						qid : queryId,
+			//						column : 'username',
+			//						value : text
+			//					});
+			//					query.justFields({
+			//						qid : queryId,
+			//						value : '["id", "username","gender", "userimg", "imtoken"]'
+			//					});
+			////					query.limit({
+			////						qid : queryId,
+			////						value : limit
+			////					});
+			////					query.skip({
+			////						qid : queryId,
+			////						value : skip
+			////					});
+			//					model.findAll({
+			//						class : 'user',
+			//						qid : queryId
+			//					}, function(ret, err) {
+			//						alert('ret::::' + JSON.stringify(ret) + '\n err::::' + JSON.stringify(err));
+			//						if (ret) {
+			//							if (type) {
+			//								showList(ret, true);
+			//								skip += ret.length;
+			//							} else {
+			//								showList(ret);
+			//								skip = 0;
+			//							}
+			//						}
+			//						if (err) {
+			//							api.toast({
+			//								msg : JSON.stringify(err),
+			//								duration : 2000,
+			//								location : 'bottom'
+			//							});
+			//						}
+			//					});
+			//				}
+			//			});
+		
+		// doT
+		var pagefn = doT.template($api.text($api.byId('userList_tmpl')), undefined);
+		function showList(data, type) {
+			if (type) {
+				$api.append($api.byId("userList"), pagefn(data));
+				api.hideProgress();
+			} else {
+				$api.html($api.byId("userList"), pagefn(data));
+				api.hideProgress();
+			}
+		};
+		function alertTxt(data_id, conversationType, targetId, targetName, photo, imToken, createAt) {
+			$aui.alert({
+				title : '提示',
+				content : '确认添加为好友？',
+				buttons : ['不是', '是'],
+				radius : 6,
+				titleColor : '#ff3300',
+				contColor : '#333',
+				btnColor : ''
+			}, function(ret) {
+				//处理回调按钮数据，进行按钮判断
+				if (ret) {
+					if (ret == 0) {
+						api.toast({
+							msg : '已取消加为好友！',
+							duration : 2000,
+							location : 'bottom'
+						});
+						return;
+					} else {
+						check_user_friend(data_id, conversationType, targetId, targetName, photo, imToken, createAt);
+						return;
+					}
+				}
+			})
+		}
+
+		//检查是否存在当前好友
+		function check_user_friend(data_id, conversationType, targetId, targetName, photo, imToken, createAt) {
+			//查询数据库是否存在这个用户
+			var userIdIM = $api.getStorage('accessToken');
+			//			var bodyParam = {'fields': {"friend": true},where:{ "id" :  userIdIM} };
+			$api.ajax('/user/' + userIdIM + '/friend', 'get', null, function(ret, err) {
+				//	使用 linq.js 筛选返回结果
+//				alert(JSON.stringify(ret));
+				var check_user_friend_jsonArray = ret;
+				var check_user_friend_result = Enumerable.From(check_user_friend_jsonArray).Where(function(x) {
+					return x.UserRelativeID == targetName
+				}).OrderBy(function(x) {
+					return x.UserID
+				}).Select(function(x) {
+					return x.UserID
+				}).ToArray();
+				//				缩写check_user_friend_result[0] 为 cufr
+				var cufr = check_user_friend_result[0];
+				//				console.log(cufr);
+				if (cufr !== undefined) {
+					api.toast({
+						msg : '您已经添加过的当前好友!',
+						duration : 2000,
+						location : 'bottom'
+					});
+					return;
+				} else if ($api.getStorage('username') == targetId) {
+					api.toast({
+						msg : '您不能添加自己为好友',
+						duration : 2000,
+						location : 'bottom'
+					});
+					return;
+				} else {
+					//添加好友函数
+					add_friend_both(data_id, conversationType, targetId, targetName, photo, imToken, createAt);
+					//				@ 使用db模块存储数据到本地,
+					//				@ 判断是否已经存在相关数据.
+					//				$api.setStorage('check_result', check_user_friend_result[0]);
+					//					ExecuteSql('friends', 'insert into Friends(username,user_number)values("' + $api.getStorage('lastUser') + '","' + check_user_friend_result[0] + '");');
+					//					SelectSql('friends', 'select user_number from Friends', function(data) {
+					//					});
+					return;
+				}
+			})
+		}
+
+		function add_friend_both(data_id, conversationType, targetId, targetName, photo, imToken, createAt) {
+			var userIdIM = $api.getStorage('accessToken');
+			var data = {
+				"UserID" : targetId,
+				"UserRelativeID" : targetName,
+				"ConversationType" : conversationType,
+				"photo" : photo
+			}
+			//			var bodyParam = {'fields': {"friend": true},where:{ "id" :  userIdIM} };
+			$api.ajax('/user/' + userIdIM + '/friend', 'post', data, function(ret, err) {
+				//添加好友信息--》  自己的好友列表
+				//			User.save({
+				//				"_id" : $api.getStorage('id'),
+				//				"_relation" : "friend"
+				//			}, {
+				//				"UserID" : targetId,
+				//				"UserRelativeID" : targetName,
+				//				"ConversationType" : conversationType,
+				//				"photo":photo,
+				//				"imToken":imToken,
+				//				"createAt":createAt
+				//			}, function(ret, err) {
+				// 广播刷新联系人列表
+				if (ret) {
+				alert(JSON.stringify(ret));
+//					_sendEvent("updateContact");
+					_toast("添加成功", null, null, function() {
+//						_closeToWin("root");
+					});
+					api.hideProgress();
+					api.refreshHeaderLoadDone();
+				}
+			});
+		}
+	</script>
+</html>

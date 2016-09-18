@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>APP</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 22%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~
+			textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox], .mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			/*.mui-table-view:before {
+			 height: 0;
+			 }*/
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			/*.oauth-area .oauth-btn {
+			 display: inline-block;
+			 width: 50px;
+			 height: 50px;
+			 background-size: 30px 30px;
+			 background-position: center center;
+			 background-repeat: no-repeat;
+			 margin: 0px 20px;
+			 /*-webkit-filter: grayscale(100%);
+			 border: solid 1px #ddd;
+			 border-radius: 25px;
+			 }*/
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			.mui-input-group:before {
+				height: 0;
+			}
+			/*.mui-input-group:after {
+				height: 0;
+			}*/
+		</style>
+	</head>
+	<header class="mui-bar mui-bar-nav" id="aui-header">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode onclick="closeWin()"></a>
+		<h1 class="mui-title">手机验证(1/2)</h1>
+	</header>
+	<div class="mui-content">
+		<form id='login-form' class="mui-input-group" style="margin-top: 10px">
+			<div class="mui-input-row">
+				<label>手机</label>
+				<input id='account' style="width:50%; float:left;" type="tel" maxlength="11" class="mui-input-clear mui-input" placeholder="请输入手机号码" onfocus="changecss(1);" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			</div>
+			<div class="mui-input-row">
+				<label>验证</label>
+				<input id='code' style="width:50%; float:left;" type="tel" maxlength="6" class=" mui-input" placeholder="请输入验证码" onfocus="changecss(2);" onkeyup="this.value=this.value.replace(/[^\d\.]/g,'')">
+				<span id="sendVerify" style="margin-top: 8px;font-size: 15px;color:#007aff"  class="link-area " tapmode="" onclick="sms();">获取验证码</span>
+			</div>
+			<div class="mui-input-row mui-password">
+				<label>密码</label>
+				<input id='password' style="width:50%; float:left;" type="password" class="mui-input-password  mui-input" placeholder="请输入密码" onfocus="changecss(3);">
+			</div>
+		</form>
+		<p style="margin:10px">
+			如果未收到短信验证码,请使用<span style="color: #007aff">语音验证</span>
+		</p>
+		<div class="mui-content-padded" style="margin:10px">
+			<button id='login' class=" mui-btn-block mui-btn-blue" style="color: #989898" onclick="open_reg_f_2();">
+				下一步
+			</button>
+		</div>
+		<div class="mui-content-padded oauth-area"></div>
+	</div>
+	</body> <script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/aui-alert.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript">
+		var smsVerify = null;
+		var sendVerifyicon = false;
+		//再次点击是否执行验证码的onclick，false时执行。
+		function closeWin() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+//			var header = $api.byId('aui-header');
+//			$api.fixStatusBar(header);
+			smsVerify = api.require('smsVerify');
+			// 初始化
+			register();
+			dialogBox = api.require('dialogBox');
+		};
+		function register() {
+			smsVerify.register(function(ret, err) {
+				if (ret.status) {
+					//api.alert({msg: '注册成功'});
+				} else {
+					api.alert({
+						msg : err.code + ' 注册失败'
+					});
+				}
+			});
+		}
+
+		// 验证前校验
+		function sms() {
+			var phone = document.getElementById("account").value;
+			var partten = /^1[3-9]\d{9}$/;
+			if (!phone) {
+				api.toast({
+					msg : '请输入手机号',
+					duration : 1000,
+					location : 'top'
+				});
+				//return false;
+			} else if (!partten.test(phone)) {
+				api.toast({
+					msg : '手机号不正确',
+					duration : 1000,
+					location : 'top'
+				});
+				//return false;//终止函数执行，不会在向下执行
+			} else {
+				if (!sendVerifyicon) {
+//					alert(sendVerifyicon);
+					setTimeout("tanchuang();", 200);
+				}
+			}
+		}
+
+		//弹出弹窗
+		function tanchuang() {
+			var phone = document.getElementById("account").value;
+  dialogBox.alert({
+        texts: {
+            content: '验证码将下发至   '+phone,
+            leftBtnTitle: '语音接听',
+            rightBtnTitle: '短信接收'
+        },
+        styles: {
+            bg: '#fff',
+            corner: 6,
+            w: 280,
+            content: {
+                color: '#000',
+                size: 18
+            },
+            left: {
+                marginB: 15,
+                marginL: 30,
+                w: 100,
+                h: 40,
+                corner: 20,
+                color: "#fff",
+                bg: '#CDCDCD',
+                size: 16
+            },
+            right: {
+                marginB: 15,
+                marginL: 20,
+                w: 100,
+                h: 40,
+                corner: 20,
+                color: "#fff",
+                bg: '#007aff',
+                size: 16
+            }
+        },
+        tapClose: false
+    }, function(ret) {
+				//处理回调函数
+				    if (ret.eventType == 'left') {
+				    voice();
+           
+        }else{
+        sendsms();
+        
+        }
+			 dialogBox.close({
+                dialogName: 'alert'
+            });
+					sendVerifyicon = true;
+					//					document.getElementById('sendVerify').onclick = function() {
+					//					return false;
+					//				};
+					var sendVerify = $api.byId('sendVerify');
+					$api.css(sendVerify, "color:#ccc");
+					$api.html(sendVerify, '已发送(<span id="GetVerify">120</span>)');
+					times = 120;
+					isinerval = setInterval("CountDown()", 1000);
+				}
+			);
+			//回调结束
+		}
+
+		//发送短信验证码
+		function sendsms() {
+			var phone = document.getElementById("account").value;
+			smsVerify.sms({
+				phone : phone,
+			}, function(ret, err) {
+				if (ret.status) {
+					api.alert({
+						msg : '短信发送成功'
+					});
+				} else {
+					api.alert({
+						msg : err.code + ' 短信发送失败'
+					});
+				}
+			});
+		}
+
+		// 发语音验证码
+		function voice() {
+			var phone = document.getElementById("account").value;
+			smsVerify.voice({
+				phone : phone,
+			}, function(ret, err) {
+				if (ret.status) {
+					api.alert({
+						msg : '语音发送成功'
+					});
+				} else {
+					api.alert({
+						msg : err.code + ' 语音发送失败'
+					});
+				}
+			});
+		}
+
+		// 校验验证码
+		function verify() {
+			var phone = document.getElementById("account").value;
+			var code = document.getElementById("code").value;
+			var password = document.getElementById("password").value;
+			if (!phone || !code || !password) {
+				api.toast({
+					msg : '请输入完整信息',
+					duration : 1000,
+					location : 'top'
+				});
+			}
+			if (code) {
+				smsVerify.verify({
+					phone : phone,
+					code : code,
+				}, function(ret, err) {
+					if (ret.status) {
+						api.alert({
+							msg : '验证成功'
+						});
+					} else {
+						api.alert({
+							msg : err.code + '验证码错误'
+						});
+					}
+				});
+			}
+		}
+
+		//取三个input的值
+		//		function  input3(){
+		//
+		//		var phone = document.getElementById("account").value;
+		//			var code = document.getElementById("code").value;
+		//			var password = document.getElementById("password").value;
+		//		return phone;
+		//		}
+		//倒计时，120秒后变为重新发送
+		function CountDown() {
+			if (times < 1) {
+				var sendVerify = $api.byId('sendVerify');
+				$api.css(sendVerify, "color:#007aff");
+				//				$api.attr(sendVerify, 'onclick', 'sms();');
+				sendVerifyicon = false;
+				$api.html(sendVerify, '重新获取');
+				clearInterval(isinerval);
+				return;
+			}
+			var getVerify = $api.byId('GetVerify');
+			$api.html(getVerify, '' + times + '');
+			times--;
+		}
+
+		function open_reg_f_2() {
+			var phone = document.getElementById("account").value;
+			var code = document.getElementById("code").value;
+			var password = document.getElementById("password").value;
+	
+			if (phone && code && password) {
+				api.openWin({
+					name : 'reg_w_2',
+					url : './reg_w_2.html',
+					pageParam : {
+						phone : phone,
+						password : password
+					},
+					animation : {
+						type : "push", //动画类型（详见动画类型常量）
+						subType : "from_right", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			}
+		}
+
+		//改变下一步按钮的背景色并且控制该onclick函数是否执行
+		function changecss(x) {
+			var phone = document.getElementById("account").value;
+			var code = document.getElementById("code").value;
+			var password = document.getElementById("password").value;
+			
+			if ((phone && code) || (code && password) || (phone && password)) {
+				$api.css($api.byId('login'), "color:#fff");
+				document.getElementById('login').onclick = function() {
+					open_reg_f_2();
+				};
+			}
+			//			if (((!phone)& (!code))|((!code)&(!password))|((!phone)& (!password)) )
+			if ((!(phone && code) && (x == 3)) || (!(phone && password) && (x == 2)) || (!(password && code) && (x == 1))) {
+				$api.css($api.byId('login'), "color:#989898");
+				document.getElementById('login').onclick = function() {
+					return false;
+				};
+			}
+		}
+
+		//		function showPassword() {
+		////			$api.attr($api.byId('password'), 'type', 'text');
+		//			$api.removeCls($api.byId('showpass-btn'), 'aui-icon-attention');
+		//			$api.addCls($api.byId('showpass-btn'), 'aui-icon-attentionfill');
+		//			//			document.getElementById('showpass-btn').onclick="hidePassword();";
+		//			$api.attr($api.byId('showpass-btn'), 'onclick', 'hidePassword();');
+		//			api.parseTapmode();
+		//		}
+		//
+		//		function hidePassword() {
+		//			$api.attr($api.byId('password'), 'type', 'password');
+		//			$api.removeCls($api.byId('showpass-btn'), 'aui-icon-attentionfill');
+		//			$api.addCls($api.byId('showpass-btn'), 'aui-icon-attention');
+		//			document.getElementById('showpass-btn').onclick = function() {
+		//				showPassword();
+		//			};
+		//			//			$api.attr($api.byId('showpass-btn'), 'onclick', 'showPassword();');
+		//			api.parseTapmode();
+		//		}
+	</script>
+</html>

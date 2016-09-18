@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>好友搜索结果-frm</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<style>
+			img {
+			border-radius: 50%;
+			}
+			.aui-user-view-cell {
+			position: relative;
+			padding: 5px 2px 3px 15px;
+			overflow: hidden;
+			}
+			.aui-user-view-cell .aui-img-object.aui-pull-left {
+			margin-right: 15px;
+			}
+			.aui-user-view-cell .aui-img-object {
+			max-width: 55px !important;
+			height: 55px !important;
+			line-height: 55px !important;
+			border-radius: 50%;
+			}
+			p {
+			font-size: 14px;
+			margin-top: 3px;
+			margin-bottom: 7px;
+			color: #8f8f94;
+			float: left;width: 86%
+			}
+			.aui-pull-left {
+			float: left !important;
+			}
+			.aui-user-view-cell .aui-img-body {
+			overflow: hidden;
+			}
+			.aui-user-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 70px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc;
+			}
+			/*.aui-user-view-cell:last-child:after {
+			border-bottom: 1px solid #c8c7cc;
+			}*/
+			.aui-user-view {
+			position: relative;
+			padding-left: 0;
+			margin-top: 0;
+			margin-bottom: 15px;
+			list-style: none;
+			background-color: #fff;
+			}
+			.aui-img-body{
+			padding-top:7px
+			}
+			.mui-badge {
+			margin-top: 2px;
+			}
+			.aui-img-body span{
+			float: left;width: 83%
+			}
+			.mui-badge .mui-badge-danger{
+			float: right;
+			}
+		</style>
+	</head>
+	<body>
+	<header class="mui-bar mui-bar-nav" id="header" >
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode onclick="api.closeWin();"></a>
+		<h1 class="mui-title">联系人</h1></header>
+		<div class="mui-content" style="padding-top: 55px">
+			<ul id="userList" class="aui-user-view">
+				
+			</ul>
+		</div>
+	</body>
+	
+	<script id="userList_tmpl" type="text/x-dot-template">
+		{{~ it :itI}}
+		<li class="aui-user-view-cell aui-img" tapmode="" data-id="{{=itI.id}}" data-conversationType="{{=itI.ConversationType}}" data-targetId="{{=itI.UserID}}" data-targetName="{{=itI.UserRelativeID}}" data-photo="{{=itI.photo}}" data-imToken="{{=itI.imToken}}" data-createAt="{{=itI.createAt}}">
+		{{? itI.photo == null}}
+		<img class="aui-img-object aui-pull-left" src="../image/ad1.png">
+		{{??}}
+		<img class="aui-img-object aui-pull-left" src="{{= itI.photo}}">
+		<!-- 暂时未加入imageCache -->
+		{{?}}
+		<div class="aui-img-body">
+		<span>{{= itI.UserRelativeID}}</span>
+		<p class="mui-ellipsis">{{=itI.createdAt}}</p>
+		</div>
+		</li>
+		{{~}}
+	</script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../script/aui-alert.js"></script>
+	<script type="text/javascript" src="../script/APICloud-rest-SHA1.js"></script>
+	<!--<script type="text/javascript" src="../script/APICloud-rest.js"></script>-->
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<script type="text/javascript" src="../script/linq.min.js"></script>
+	<script type="text/javascript" src="../script/mycommon.js"></script>
+	<script type="text/javascript">
+	
+		var userList = $api.dom('#userList');
+		var page = 1, userJson = null;
+		//屏蔽可容差错误
+		window.onerror = function() {
+			return true;
+		}
+	
+		Zepto(function($) {
+			// 绑定会话点击事件
+			$("#userList").on("click", "li", function() {
+				//获取用户表自增ID
+				var data_id = $(this).attr("data-id");
+				//alert(data_id);
+				// 获取会话类型
+				var conversationType = $(this).attr("data-conversationType");
+				// 获取目标ID
+				var targetId = $(this).attr("data-targetId");
+				// 获取目标名称
+				var targetName = $(this).attr("data-targetName");
+				alert(targetName);
+				//获取照片信息
+				var photo = $(this).attr("data-photo");
+				alert(photo );
+				//获取token信息
+//				var imToken = $(this).attr("data-imToken");
+//				//获取创建时间
+//				var createAt = $(this).attr("data-createAt");
+//				// 打开会话页面
+				api.actionSheet({
+                title : '请选择操作方式',
+                cancelTitle : '取消',
+                buttons : ['打开会话']
+            }, function(ret, err) {
+            
+                var btnIndex = ret.buttonIndex;
+                if (btnIndex == 1) {
+                    // 打开会话页面
+                    _openWin("chat_win", "../html/chat_win.html", {
+                        conversationType : conversationType,
+                        targetId : targetId,
+                        targetName : targetName,
+                        targetPhoto:photo
+                    });
+                }
+            });
+//				alertTxt(data_id, conversationType, targetId, targetName, photo, imToken, createAt);
+			});
+		});
+		apiready = function() {
+		
+//			window.db = api.require('db');
+			api.parseTapmode();
+			//!@ 创建本地数据库 friends  如果没有，这一步不许在这里面先做，要不会报错
+			//			ExecuteSql('friends', 'create table if not exists Friends(id int primarykey auto_increment, username varchar(255), user_number varchar(255));');
+			
+			api.showProgress({
+            });
+			 searchByMcm();
+			api.addEventListener({
+				name : 'openSearchbar'
+			}, function(ret) {
+				if (ret && ret.value) {
+					openSearch();
+				}
+			});
+		};
+		
+		// 搜索
+		function searchByMcm(text, type) {
+		var userIdIM = $api.getStorage('accessToken');
+		alert(userIdIM);
+			$api.ajax('/user/' + userIdIM + '/friend', 'get', null, function(ret, err) {
+				if (ret) {
+//				alert(JSON.stringify(ret));
+				if(ret!=null&&ret!=undefined&&ret!=0)
+					showList(ret, true);
+					else{
+					alert("结果为空");
+					api.hideProgress();
+					}
+				} else {
+					alert("查询失败，请重试");
+					api.hideProgress();
+				}
+			})
+			};
+
+		
+		// doT
+		
+		function showList(data, type) {
+		var pagefn = doT.template($api.text($api.byId('userList_tmpl')), undefined);
+			if (type) {
+				$api.append($api.byId("userList"), pagefn(data));
+				api.hideProgress();
+			} else {
+				$api.html($api.byId("userList"), pagefn(data));
+				api.hideProgress();
+			}
+		};
+
+
+	</script>
+</html>

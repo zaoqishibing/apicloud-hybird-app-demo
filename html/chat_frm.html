@@ -1,0 +1,541 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<!--AUI样式框架-->
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<!--拓展AUI字体图标-->
+		<link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css" />
+		<!--通用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/winu-ui.css" />
+		<style type="text/css">
+			/*聊天 会话*/
+			.aui-chat-receiver {
+				clear: both;
+			}
+			.aui-chat-receiver p {
+				font-size: 12px;
+			}
+			.aui-chat-receiver .aui-chat-receiver-avatar {
+				float: left;
+			}
+			.aui-chat-receiver .aui-chat-receiver-avatar img {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+			}
+			.aui-chat-receiver .aui-chat-receiver-cont {
+				background: #ffffff;
+				float: left;
+				margin: 0 20px 10px 15px;
+				padding: 10px;
+				border-radius: 7px;
+				max-width: 70%;
+				position: relative;
+				min-height: 20px;
+			}
+			.aui-chat-receiver-cont .aui-chat-status {
+				color: #666;
+				background: #ffffff;
+				position: absolute;
+				right: -36px;
+				top: 6px;
+				font-size: 12px;
+				width: 30px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 15px;
+			}
+			.aui-chat-sender {
+				clear: both;
+			}
+			.aui-chat-sender p {
+				color: #fff;
+				font-size: 12px;
+			}
+			.aui-chat-sender .aui-chat-sender-avatar {
+				float: right;
+			}
+			.aui-chat-sender .aui-chat-sender-avatar img {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+			}
+			.aui-chat-sender .aui-chat-sender-cont {
+				float: right;
+				background: #15b5e9;
+				margin: 0 10px 10px 20px;
+				padding: 10px;
+				border-radius: 7px;
+				color: #ffffff;
+				max-width: 70%;
+				position: relative;
+				min-height: 20px;
+			}
+			.aui-chat-sender-cont .aui-chat-status {
+				color: #666;
+				position: absolute;
+				left: -36px;
+				top: 10px;
+				font-size: 12px;
+				width: 30px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 15px;
+			}
+			.aui-chat-left-triangle {
+				height: 0px;
+				width: 0px;
+				border-width: 8px;
+				border-style: solid;
+				border-color: transparent #ffffff transparent transparent;
+				position: absolute;
+				left: -16px;
+				top: 6px;
+			}
+			.aui-chat-right-triangle {
+				height: 0px;
+				width: 0px;
+				border-width: 8px;
+				border-style: solid;
+				border-color: transparent transparent transparent #15b5e9;
+				position: absolute;
+				right: -16px;
+				top: 6px;
+			}
+			.aui-chat-sender .aui-chat-sender-cont span, .aui-chat-receiver .aui-chat-receiver-cont span {
+				word-break: break-all;
+			}
+			.aui-chat-img img {
+				width: 100%;
+			}
+			.aui-chat-status i.aui-chat-progress {
+				color: #666;
+				-webkit-animation: rotate 1s infinite linear;
+			}
+			html, body {
+				background: #efeff4;
+				padding:1px
+			}
+			.chat-sender-info {
+				font-size: 10px;
+				color: #999;
+			}
+			.nick {
+				font-size: 10px;
+				color: #666;
+			}
+			.history-date {
+				padding: 5px 0;
+			}
+			.icon-yuyin {
+				font-size: 20px !important;
+			}
+			.yuyin .icon-yuyin.red {
+				color: #f00;
+			}
+			.rprogress {
+				position: fixed;
+				left: 50%;
+				top: 50%;
+				width: 140px;
+				height: 140px;
+				margin-left: -70px;
+				margin-top: -70px;
+				background-image: url(../images/arecord.png);
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: 30px 30px;
+				background-color: rgba(0, 0, 0, 0.7);
+				border-radius: 5px;
+				display: none;
+				-webkit-transition: .15s;
+			}
+			.rschedule {
+				background-color: rgba(0, 0, 0, 0);
+				border: 5px solid rgba(0, 183, 229, 0.9);
+				opacity: .9;
+				border-left: 5px solid rgba(0, 0, 0, 0);
+				border-right: 5px solid rgba(0, 0, 0, 0);
+				border-radius: 50px;
+				box-shadow: 0 0 15px #2187e7;
+				width: 46px;
+				height: 46px;
+				position: fixed;
+				left: 50%;
+				top: 50%;
+				margin-left: -23px;
+				margin-top: -30px;
+				-webkit-animation: spin 1s infinite linear;
+				animation: spin 1s infinite linear;
+			}
+			.r-sigh{
+				display: none;
+				border-radius: 50px;
+				box-shadow: 0 0 15px #2187e7;
+				width: 46px;
+				height: 46px;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin-left: -23px;
+				margin-top: -23px;
+				text-align: center;
+				line-height: 46px;
+				font-size: 40px;
+				font-weight: bold;
+				color: #2187e7;
+			}
+			.rprogress-sigh{
+				background-image: none !important;
+			}
+			.rprogress-sigh .rschedule{
+				display: none !important;
+			}
+			.rprogress-sigh .r-sigh{
+				display: block !important;
+			}
+			.rsalert {
+				font-size: 12px;
+				color: #bbb;
+				text-align: center;
+				position: absolute;
+				border-radius: 5px;
+				width: 130px;
+				margin: 5px 5px;
+				padding: 5px;
+				left: 0px;
+				bottom: 0px;
+			}
+			@-webkit-keyframes spin {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
+				100% {
+					-webkit-transform: rotate(360deg);
+				}
+			}
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+		<!--发送模板===============================-->
+		<script id="senderTpl" type="text/x-dot-template">
+			<div class="chat-sender-info winu-text-align-right winu-clear-both">
+			{{ if(latestmessagetime3minutes) { }}
+			<p class="mui-text-center">
+				{{=_formatDate(it.sentTime)}}
+			</p>
+			{{  }  }}
+			<!--{{=_formatDate(it.sentTime)}}<label class="nick" style="font-size: 15px">&nbsp;&nbsp;&nbsp;{{=it.content.extra.username}}</label>-->
+			<label class="nick" style="height: 10px">&nbsp;&nbsp;&nbsp;</label>
+			</div>
+			<div class="aui-chat-sender msgcontent" data-msgid="{{=it.messageId}}">
+			<div class="aui-chat-sender-avatar"><img src="{{=it.content.extra.userimg}}">
+			</div>
+			<div class="aui-chat-sender-cont">
+			<div class="aui-chat-right-triangle"></div>
+			<div class="aui-chat-status winu-display-none"><i class="aui-iconfont aui-icon-loading aui-chat-progress"></i></div>
+			<span>{{=it.content.text}}</span>
+			</div>
+			</div>
+		</script>
+		<!--接收模板===============================-->
+		<script id="receiverTpl" type="text/x-dot-template">
+			<div class="chat-sender-info winu-text-align-left winu-clear-both">
+			{{ if(latestmessagetime3minutes) { }}
+			<p class="mui-text-center">
+				{{=_formatDate(it.sentTime)}}
+			</p>
+			{{  }  }}
+			<label class="nick" style="height: 10px">&nbsp;&nbsp;&nbsp;</label>
+			<!--<label class="nick">{{=it.content.extra.username}}&nbsp;&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{=_formatDate(it.sentTime)}}-->
+			</div>
+			<div class="aui-chat-receiver msgcontent" data-msgid="{{=it.messageId}}">
+			<div class="aui-chat-receiver-avatar"><img src="{{=it.content.extra.userimg}}">
+			</div>
+			<div class="aui-chat-receiver-cont">
+			<div class="aui-chat-left-triangle"></div>
+			<span>{{=it.content.text}}</span>
+			</div>
+			</div>
+		</script>
+	</head>
+	<body>
+		<div class="mui-content mui-content-padded" id="message-content">
+		</div>
+		<div id='sound-alert' class="rprogress">
+			<div class="rschedule"></div>
+			<div class="r-sigh">!</div>
+			<div id="audio_tips" class="rsalert">正在录音</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="../script/SHA1.js"></script>
+	<!--APICloud自带前端脚本-->
+	<script type="text/javascript" src="../script/api.js"></script>
+	<!--Zepto.js,类似Jquery-->
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<!--doT.js模板引擎-->
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<!--通用脚本库-->
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<!--转换表情-->
+	<script type="text/javascript" src="../script/emo.js"></script>
+	<script type="text/javascript">
+	var latestmessagetime3minutes=false;
+	var latestmessagetime=null;
+		window.onerror = function() {
+			return true;
+		}
+		// 图片预览模块
+		var imageBrowser = null;
+		// 设置语音空格长度
+		function setVoiceLength(duration) {
+			var beisu = Math.ceil(parseInt(duration) / 4.0);
+			var html = "";
+			for (var i = 0; i < beisu; i++) {
+				html += "&nbsp;&nbsp;&nbsp;";
+			}
+			return html;
+		}
+		// 生成发送消息样式
+		function writeSendMsg(msgObj) {
+			// 获取消息类型
+			var objectName = msgObj.objectName;
+			switch(objectName) {
+				// 文本类型
+				case "RC:TxtMsg":
+					msgObj.content.text = _transEmo(msgObj.content.text);
+					//					alert(msgObj.content.text);
+					break;
+				// 语音类型
+				case "RC:VcMsg":
+					msgObj.content.text = "<label class='winu-display-block yuyin' data-voicepath='" + msgObj.content.voicePath + "'>" + msgObj.content.extra.duration + "s" + setVoiceLength(msgObj.content.extra.duration) + "<i class='iconfont icon-yuyin'></i>" + "</label>";
+					break;
+				// 图片消息
+				case "RC:ImgMsg":
+					msgObj.content.text = "<img src='" + msgObj.content.imageUrl + "' style='width:100%;' class='imagemsg' />";
+					break;
+			}
+			if(_formatDate3second(msgObj.sentTime,latestmessagetime)){
+			latestmessagetime3minutes=true;
+			latestmessagetime=msgObj.sentTime;
+			}else{
+			latestmessagetime3minutes=false
+			latestmessagetime=msgObj.sentTime;
+			}	
+			var interText = doT.template($("#senderTpl").text());
+			$("#message-content").append(interText(msgObj));
+			setTimeout(function() {
+				_scrollToEnd();
+			}, 300);
+		}
+		// 生成接受信息样式
+		function receiverSendMsg(msgObj) {
+			// 获取接收类型
+			var objectName = msgObj.objectName;
+			switch(objectName) {
+				// 文本类型
+				case "RC:TxtMsg":
+					msgObj.content.text = _transEmo(msgObj.content.text);
+					msgObj.sentTime = msgObj.receivedTime;
+					break;
+				// 语音类型
+				case "RC:VcMsg":
+					msgObj.content.text = "<label class='winu-display-block yuyin' data-voicepath='" + msgObj.content.voicePath + "'>" + "<i class='iconfont icon-yuyin'></i>" + setVoiceLength(msgObj.content.extra.duration) + msgObj.content.extra.duration + "s";
+					+"</label>";
+					msgObj.sentTime = msgObj.receivedTime;
+					break;
+				// 图片消息
+				case "RC:ImgMsg":
+					msgObj.content.text = "<img src='" + msgObj.content.imageUrl + "' style='width:100%;' class='imagemsg' />";
+					msgObj.sentTime = msgObj.receivedTime;
+					break;
+			}
+			// 开始渲染
+			if(_formatDate3second(msgObj.sentTime,latestmessagetime)){
+			
+			latestmessagetime3minutes=true;
+			latestmessagetime=msgObj.sentTime;
+			
+			}else{
+			latestmessagetime3minutes=false
+			latestmessagetime=msgObj.sentTime;
+			}
+			
+			var interText = doT.template($("#receiverTpl").text());
+			$("#message-content").append(interText(msgObj));
+			setTimeout(function() {
+				_scrollToEnd();
+			}, 300);
+		}
+
+		// 打开图片浏览
+		// imgs：需要预览的图片集合
+		function openImageBrowser(imgs, index) {
+			imageBrowser.openImages({
+				imageUrls : imgs,
+				showList : false,
+				activeIndex : index
+			});
+		}
+
+		Zepto(function($) {
+			// 点击显示图片预览
+			$("#message-content").on("click", ".imagemsg", function() {
+				var showImgsArr = [];
+				$("#message-content .imagemsg").each(function() {
+					var srcPath = $(this).attr("src");
+					showImgsArr.push(srcPath);
+				});
+				var index = showImgsArr.indexOf($(this).attr("src"));
+				openImageBrowser(showImgsArr, index);
+			});
+			// 点击语音播放
+			$("#message-content").on("click", ".yuyin", function() {
+				// 先停止所有播放
+				api.stopPlay();
+				$(".yuyin").each(function() {
+					$(this).find(".icon-yuyin").removeClass("red");
+				});
+				var $that = $(this);
+				$that.find(".icon-yuyin").addClass("red");
+				var voicepath = $(this).attr("data-voicepath");
+				// 开始播放
+				api.startPlay({
+					path : voicepath
+				}, function() {
+					$that.find(".icon-yuyin").removeClass("red");
+				});
+			});
+		});
+		apiready = function() {
+			// 引入图片浏览模块
+			imageBrowser = api.require('imageBrowser');
+			// 监听是否需要滚动到底部
+			_addEventListener("scrollButton", function() {
+				setTimeout(function() {
+					_scrollToEnd();
+				}, 30);
+			});
+			// 0.0  请求获取历史消息
+			_sendEvent("getNewMsgStart", {
+				conversationType : api.pageParam.conversationType,
+				targetId : api.pageParam.targetId,
+				oldestMessageId : -1
+			});
+			// 广播事件，通知成功获取到历史数据
+			_addEventListener("getNewMsgEnd", function(ret) {
+				if (ret && ret.value) {
+					var result = ret.value;
+					var msglist = typeof result == "object" ? result : $api.strToJson(result);
+					// 渲染消息
+					if (msglist && msglist.length > 0) {
+						for (var i = msglist.length - 1; i >= 0; i--) {
+							var msgObj = msglist[i];
+							msgObj.content.extra = $api.strToJson(msgObj.content.extra);
+							// 发送方
+							if (msgObj.messageDirection == "SEND") {
+								writeSendMsg(msgObj);
+							}
+							// 接收方
+							else {
+								receiverSendMsg(msgObj);
+							}
+						}
+						setTimeout(function() {
+							_scrollToEnd();
+						}, 300);
+					}
+				}
+			});
+			// 1.0 监听发送准备事件
+			_addEventListener("sendMsgPrepare", function(ret) {
+				if (ret && ret.value) {
+//				alert(ret.value);
+					var msg = ret.value;
+					msg.content.extra = $api.strToJson(msg.content.extra);
+					// 渲染模板引擎
+					writeSendMsg(msg);
+					$(".aui-chat-sender[data-msgid='" + msg.messageId + "']").find(".aui-chat-status").removeClass("winu-display-none");
+				}
+			});
+			// 2.0 监听是否发送成功
+			_addEventListener("sendMsgSuccess", function(ret) {
+				if (ret && ret.value) {
+					var msg = ret.value;
+					//隐藏加载图标
+					$(".aui-chat-sender[data-msgid='" + msg.messageId + "']").find(".aui-chat-status").addClass("winu-display-none");
+				}
+			});
+			_addEventListener("luyindonghuastart", function(ret) {
+			
+					$(".rprogress").css("display","block");
+//					$("#sound-alert").style.display="block";
+			
+			});
+//			_addEventListener("luyintaiduan", function(ret) {
+//			
+//					$(".rprogress").css("display","block");
+//					$(".rschedule").css("display","none");
+//					$(".r-sigh").css("display","block");
+//					$("#audio_tips").innerHTML = "录音时间太短";
+//					setTimeout(function(){
+//          $(".rprogress").css("display","none")
+//      },500)
+//			
+//			});
+			_addEventListener("luyindonghuaend", function(ret) {
+				
+					$(".rprogress").css("display","none");
+//			$("#sound-alert").style.display="none";
+			});
+			// 3.0 监听是否发送失败
+			_addEventListener("sendMsgError", function(ret) {
+				if (ret && ret.value) {
+					var msg = ret.value;
+					//隐藏加载图标
+					$(".aui-chat-sender[data-msgid='" + msg.messageId + "']").find(".aui-chat-status i").attr("class", "aui-iconfont  iconfont icon-jinggao").css("color", "#f00");
+				}
+			});
+			// 4.0 监听是否有消息进来
+			_addEventListener("receivedMsg", function(ret) {
+				if (ret && ret.value) {
+					// 清除会话
+					_sendEvent("clearMessages", {
+						conversationType : api.pageParam.conversationType,
+						targetId : api.pageParam.targetId
+					});
+					// 判断是否是自己
+					var msg = ret.value;
+					if (msg.targetId == api.pageParam.targetId) {
+						msg.content.extra = $api.strToJson(msg.content.extra);
+						msg.sentTime = msg.receivedTime;
+						// 渲染模板引擎
+						receiverSendMsg(msg);
+					}
+				}
+			});
+			// 清除会话
+			_sendEvent("clearMessages", {
+				conversationType : api.pageParam.conversationType,
+				targetId : api.pageParam.targetId
+			});
+			// 下拉刷新
+			_setRefreshHeaderInfo(function() {
+				api.refreshHeaderLoadDone();
+			});
+		};
+	</script>
+</html>

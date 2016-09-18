@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="./css/mui.min.css"/>
+		<style>
+			body {
+			}
+			.icon-logo{
+    display: inline-block;
+    width: 5em;
+    height: 5em;
+    background: url(image/logo.png) no-repeat center;
+    background-size: cover;
+    margin-bottom: 0.9375em
+}
+.logo-main{
+    position: absolute;
+    width: 100%;
+    z-index: 3;
+    text-align: center;
+    top: 20%;
+    color: #fff
+}
+.logo-main font{
+    font-size: 1em;
+    display: block
+}
+.loadding-btn{
+    position: fixed;
+    z-index: 2;
+    bottom: 3.75em;
+    width: 100%;
+    left: 0;
+    text-align: center
+}
+.loadding-btn a{
+    display: block;
+    margin: 0 10%;
+    height: 2.375em;
+    border: 0.0625em solid #E6E6E6;
+    line-height: 2.375em;
+    border-radius: 0.375em;
+    color: #fff
+}
+.loadding-btn>a{
+    border-radius: 2.375em;
+    color: #fff;
+    margin: 0 18%
+}
+
+.loadding-btn a font{
+    font-size: 0.875em
+}
+.loadding-btn li{
+    float: left;
+    width: 50%
+}
+.loadding-btn ul{
+list-style:none;
+    padding: 0 5%
+}
+.clear {
+    zoom: 1;
+}
+
+.clear:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.loading-bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: url(image/login-bg.jpg) no-repeat center;
+    background-size:cover;
+    z-index: 1
+}
+		</style>
+	</head>
+	<body>
+    <div class="logo-main">
+        <i class="icon-logo"></i>
+        <font>消息圈</font>
+    </div>
+    
+    <div class="loadding-btn">
+   
+        <ul class="clear">
+            <li>
+                <a tapmode onclick="openlogin();"><font>登录</font></a>
+            </li>
+            <li>
+                <a tapmode onclick="openreg();"><font>注册</font></a>
+            </li>
+        </ul>
+         <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined" style="width: 80%;height:2.375em " tapmode onclick="suibiankanakn();">
+			随便看看
+		</button>
+    </div>
+    <div class="loading-bg">
+    </div>
+</body>
+<!--	<body>
+		<button type="button" class="mui-btn mui-btn-primary" tapmode onclick="openlogin();">
+			登录
+		</button>
+		<button type="button" class="mui-btn mui-btn-success" tapmode onclick="openreg();">
+			注册
+		</button>
+		<button type="button" class="mui-btn mui-btn-warning" tapmode onclick="suibiankanakn();">
+			随便看看
+		</button>
+	</body>-->
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script type="text/javascript" src="./script/mui.min.js"></script>
+	<script type="text/javascript" src="./script/SHA1.js"></script>
+	<script type="text/javascript">
+		apiready = function(){
+		bMap = api.require('bMap');
+				bMap.getLocation({
+					accuracy : '10m',
+					autoStop : true,
+					filter : 1
+				}, function(ret, err) {
+					if (ret.status) {
+						$api.setStorage('jingdu', '' + ret.lon + '');
+						$api.setStorage('weidu', '' + ret.lat + '');
+						bMap.getNameFromCoords({
+							lon : ret.lon,
+							lat : ret.lat
+						}, function(ret, err) {
+							if (ret.status) {
+								// 设置给位置
+								//						var html='<a>' + ret.city + '</a>';
+								
+								$api.setStorage('city', '' + ret.city + '');
+								$api.setStorage('dangqianaddress', '' + ret.address + '');
+							}
+						});
+					} else {
+						alert(err.code);
+					}
+				});
+		if ($api.getStorage('accessToken')) {
+		 var data = {
+								
+								online:true,
+								weizhi:{lat:$api.getStorage('weidu'),lng:$api.getStorage('jingdu')}
+							}
+                        $api.ajax('/user/' + $api.getStorage('accessToken'), 'put', data, function(ret, err) {
+								if (ret) {
+								
+								api.toast({
+	                                msg:'登录成功'
+                                });
+								api.openWin({
+		name: 'root',
+		url: 'index.html',
+		//	                 delay:3000
+		});
+								}
+								})
+		
+
+		}else{
+		
+			api.removeLaunchView({
+		animation : {
+		type : 'none',
+		duration : 500
+		}
+		});
+		}
+		}
+		
+		
+		function openreg() {
+			api.openWin({
+				name : 'reg_w',
+				url : './html/reg_w.html'
+			});
+		}
+
+		function openlogin() {
+			api.openWin({
+				name : 'login_w',
+				url : './html/login_w.html'
+			});
+		}
+
+		function suibiankanakn() {
+			api.openWin({
+				name : 'suibiankankan',
+				url : './html/suibiankankan.html'
+			});
+		}
+	</script>
+</html>

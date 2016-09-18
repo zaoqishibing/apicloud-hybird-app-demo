@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<style>
+			body {
+			}
+			.mui-bar {
+				-webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.6);
+				box-shadow: 0px 0px 3px rgba(0,0,0,0.6);
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="aui-header" style="height: 0.5px;"></header>
+		<!--<div class="mui-loading" style="margin-top: 10%">
+		<div class="mui-spinner"></div>
+		</div>-->
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+//		var listView = api.require('listView');
+//listView.open({
+//  h:300,
+//  fixedOn:api.frameName,
+//  leftBtn:[{color:'#8B0000',title:'左按钮1'},{color:'#228B22',title:'左按钮2'}],
+//  rightBtn:[{color:'#8B0000',title:'右按钮1'},{color:'#228B22',title:'右按钮2'}],
+//  placeholderImg: 'widget://res/listview.png',
+//  data:[{ img:'http://img1.3lian.com/gif/more/11/201206/a5194ba8c27b17def4a7c5495aba5e32.jpg',title:'标题', titleLocation:"center", remark:"12",      subTitle:'子标题，说明文字。。。。。。'},{ title:'标题',subTitle:'子标题'},{title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题 '},{title:'标题',subTitle:'子标题'},{ title:'标题',subTitle:'子标题 '},{ title:'标题',subTitle:'子标题'}]
+//}, function(ret, err){        
+//  if( ret ){
+//      alert( JSON.stringify( ret ) );
+//  }else{
+//      alert( JSON.stringify( err ) );
+//  }
+//});
+var UIListView = api.require('UIListView');
+UIListView.open({
+    rect: {
+        x: 0,
+        y: 2,
+        w: api.winWidth,
+        h: api.frameHeight
+    },
+    data: [{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题ces sasssdkk德胜东村上传',
+        subTitle: '子标题，说明文字素的和is到你家卡十多年分撒旦你发神经和东方会计师的',
+        remark: '2016-10-12',
+        icon: 'widget://res/img/shuijiao.jpg'
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '2016-10-11',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        uid: '1001',
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    },{
+        imgPath: 'widget://res/img/shuijiao.jpg',
+        title: '标题',
+        subTitle: '子标题，说明文字',
+        remark: '备注',
+        icon: ''
+    }],
+    rightBtns: [{
+        bgColor: '#388e8e',
+        activeBgColor: '',
+        width: 70,
+        title: '按钮',
+        titleSize: 12,
+        titleColor: '#fff',
+        icon: '',
+        iconWidth: 20
+    }],
+    styles: {
+        borderColor: '#f5f5f5',
+        item: {
+            bgColor: '#fff',
+            activeBgColor: '#F5F5F5',
+            height: 65.0,
+            imgWidth: 50,
+            imgHeight: 50,
+            imgCorner: 25,
+            placeholderImg: '',
+            titleSize: 16.0,
+            titleColor: '#000',
+            subTitleSize: 14.0,
+            subTitleColor: '#333', 
+            remarkColor: '#ff0000',
+            remarkSize: 12,
+            remarkIconWidth: 30
+        }
+    },
+    fixedOn: api.frameName
+}, function(ret, err){
+    if( ret ){
+         alert( JSON.stringify( ret ) );
+    }else{
+         alert( JSON.stringify( err ) );
+    }
+});
+		};
+	</script>
+</html>

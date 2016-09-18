@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<!-- <link rel="stylesheet" type="text/css" href="../css/feedback-page.css" />-->
+		<style>
+			body {
+			}
+			img {
+				border-radius: 50%;
+	
+			}
+			.mui-table-view .mui-media-object.mui-pull-left {
+				margin-right: 15px;
+			}
+			.mui-table-view .mui-media-object {
+				line-height: 65px;
+				max-width: 65px;
+				height: 65px;
+			}
+			.mui-table-view-cell1 {
+				position: relative;
+				}
+			p {
+				font-size: 15px;
+				
+				margin-bottom: 0px;
+				color: #999;
+				
+			}
+			.aui-active{
+			background-color:#efeff4
+			}
+		
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<ul class="mui-table-view" style="margin-top: 0px">
+				<li class="mui-table-view-cell mui-media mui-table-view-chevron" style="padding:10px  15px;" onclick="openzhuye();">
+					<a class="mui-navigate-right"> <img id="userimg" class="mui-media-object mui-pull-left"  src="http://7xrbyt.com1.z0.glb.clouddn.com/apicloud/8e80d03796a826437b9ae7a5a61cf4e2.jpg">
+					<div class="mui-media-body" style="padding-top: 11px;">
+					<span id="username">用户名</span>
+						<p  id="jianjie" class='mui-ellipsis'>
+							我的简介
+						</p>
+					</div> </a>
+				</li>
+				<li class="mui-table-view-cell1 mui-media" tapmode="aui-active" style="background-color:#fff;padding:4px;width: 33.3333%;float: left">
+					
+					<div class="mui-media-body" style="font-size:14px;text-align:center">
+						<p class='mui-ellipsis'>
+							7
+						</p>
+						发布
+						
+					</div>
+				</li>
+				<li class="mui-table-view-cell1 mui-media"  tapmode="aui-active" style="background-color:#fff;padding:4px;width: 33.3333%;float: left" onclick="opencontact();">
+					
+					<div class="mui-media-body" style="font-size:14px;text-align:center">
+						
+						<p class='mui-ellipsis'>
+							34
+						</p>关注
+						
+					</div>
+				</li>
+				<li class="mui-table-view-cell1 mui-media" tapmode="aui-active" style="background-color:#fff;padding:4px;width: 33.3333%;float: left">
+					
+					<div class="mui-media-body" style="font-size:14px;text-align:center">
+						
+						<p class='mui-ellipsis'>
+							56
+						</p>粉丝
+						
+					</div>
+				</li>
+				
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron" style="padding:0px;margin-top: 60px">
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-camera" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我的相册</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-star" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我的收藏</a>
+			</li>
+		</ul>
+		<ul class="mui-table-view mui-table-view-chevron" style="padding:0px;margin-top: 10px">
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-chatboxes" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我的评论</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-paperplane" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我的评价</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-location" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我赞过的</a>
+			</li>
+		</ul>	
+		<ul class="mui-table-view mui-table-view-chevron" style="padding:0px;margin-top: 10px">
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-chatboxes" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我的评论</a>
+			</li>
+			
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right mui-icon mui-icon-location" style="font-size: inherit;" id="bmap">&nbsp;&nbsp;我赞过的</a>
+			</li>
+		</ul>	
+		
+		  <button type="button" class="mui-btn mui-btn-danger" style="width: 100%;height:3em ;margin-top: 10px" tapmode onclick="tuichu()">
+			退出登录
+		</button>			
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript">
+	var userimg = $api.getStorage('userimg');
+		var username= $api.getStorage('username');
+		apiready = function() {
+		api.parseTapmode();
+		
+		$api.attr($api.byId('userimg'), 'src', '' +userimg+ '');
+		$api.text($api.byId("username"),username);
+		
+//		api.addEventListener({
+//				name: 'login_success'
+//			}, function(){
+//			
+//		var userimg = $api.getStorage('userimg');
+//		alert(userimg);
+//		var username= $api.getStorage('username');
+//		$api.attr($api.byId('userimg'), 'src', '' +userimg+ '');
+//		$api.text($api.byId("username"),username );
+//			});
+			};
+
+		function opencontact(){
+		
+		api.openWin({
+	        name: 'contact',
+	        url: '../html/contact.html'
+        });
+		}
+		function tuichu(){
+		$api.clearStorage ();
+		api.closeWin({
+        });
+        api.openWin({
+	        name: 'panduan',
+	        url: 'panduan.html'
+        });
+		
+		
+		}
+		function openzhuye(){
+		
+		api.openWin({
+	        name: 'zhuyewin',
+	        pageParam : {
+					
+					name : username,
+					img : userimg
+				},
+	        url: '../html/zhuyewin.html'
+        });
+		}
+	</script>
+</html>

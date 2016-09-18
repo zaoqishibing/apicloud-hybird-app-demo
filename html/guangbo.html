@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<style>
+		/*跨webview需要手动指定位置*/
+			.mui-plus header.mui-bar {
+				display: none !important;
+			}
+			.mui-plus .mui-bar-nav~
+			.mui-content {
+				padding: 0 !important;
+			}
+			.mui-plus .plus {
+				display: inline;
+			}
+			.plus {
+				display: none;
+			}
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			/*.mui-popover {
+			 height: 70%;
+			 width:50%;
+			 }*/
+			.mui-content {
+				padding: 10px;
+			}
+			.mui-table-view-cell:after {
+				height: 0px
+			}
+			.mui-bar-popover {
+				width: 25%
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" id="xiaoxiquan">
+			<a class="mui-btn-link mui-pull-left" tapmode  onclick="citylist();" > <span class="mui-icon mui-icon-location" style="font-size: inherit;" id="citylist">北京</span> </a>
+			<a class="mui-btn-link mui-pull-right" tapmode  onclick="sousuo();" > <span class="mui-icon mui-icon-search" style="font-size: inherit;" id="citylist">搜索</span> </a>
+			<a class="mui-title" href="#topPopover" style="color: #000" onclick="">消息圈<span class="mui-icon mui-icon-arrowdown" style="font-size: inherit;" id="dakai"></span></a>
+		</header>
+		<header class="mui-bar mui-bar-nav" id="city" style="display: none">
+			<a class="mui-btn mui-btn-blue mui-btn-link mui-pull-left" tapmode  onclick="closecitylist();">取消 </a>
+			<h1 class="mui-title">选择城市</h1>
+		</header>
+		<div  class="mui-popover">
+			<li class="mui-table-view-cell">
+				<a href="#">quanbu</a>
+			</li>
+		</div>
+	
+		<div id="topPopover" class="mui-popover mui-bar-popover" style="height: 70%;width:50%;">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a  onclick="ceshi();"   href="#">热门</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="../html/login_w.html">关注</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a  onclick="open_reg();"  href="#">最新</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">附近</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">求助</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">广播</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">活动</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">商品</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">服务</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#">调查</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content"></div>
+	</body>
+	<script src="../script/mui.min.js"></script>
+	<script src="../script/api.js"></script>
+	<script type="text/javascript">
+		//启用双击监听
+		apiready=function(){
+		api.removeLaunchView({
+					animation : {
+						type : 'none',
+						duration : 500
+					}
+				});
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'./pullrefresh_sub.html',
+				id:'pullrefresh_sub.html',
+				styles:{
+					top: '44px',
+					bottom: '0px',
+					bounce:true
+				}
+			}]
+		});
+	}
+		
+	</script>
+
+</html>

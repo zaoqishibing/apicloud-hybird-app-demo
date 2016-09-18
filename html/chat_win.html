@@ -1,0 +1,422 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<!--AUI样式框架-->
+		<!--拓展AUI字体图标-->
+		<link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css" />
+		<!--通用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/winu-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="aui-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode onclick="closeWin();"></a>
+			<a class="mui-btn-link mui-pull-right">设置</a>
+			<h1  style="top: -8px;height: 35px" class="mui-title">jj </h1>
+			<p style="left:5px;top: 24px;position: relative;text-align: center" id="beizhu">
+				距离信息
+			</p>
+		</header>
+	</body>
+	<!--APICloud自带前端脚本-->
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/uichat.js"></script>
+	<script type="text/javascript" src="../script/SHA1.js"></script>
+	<!--Zepto.js,类似Jquery-->
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<!--通用脚本库-->
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<script type="text/javascript">
+		//		window.onerror = function() {
+		//			return true;
+		//		}
+		function closeWin() {
+			api.closeWin();
+			//				_sendEvent("updatelist",{
+			//				conversationType : api.pageParam.conversationType,
+			//				targetId : api.pageParam.targetId,
+			//				});
+		}
+
+		var uiChatBox = null, uiMediaScanner = null, imageFilter = null, bMap = null;
+		// 重新调整frame会话区域
+		function setChatInit(frameName, inputAreaHeight) {
+			var headerOffset = $api.offset($api.byId('aui-header'));
+			api.setFrameAttr({
+				name : frameName,
+				rect : {
+					x : 0,
+					y : headerOffset.h,
+					w : api.winWidth,
+					h : api.winHeight - headerOffset.h - inputAreaHeight
+				}
+			});
+			setTimeout(function() {
+				// 通知会话页面滚动到底部
+				api.sendEvent({
+					name : 'scrollButton',
+					extra : {}
+				});
+			}, 300);
+		}
+
+		function changeTwoDecimal(x) {
+			var f_x = parseFloat(x);
+			if (isNaN(f_x)) {
+				alert('function:changeTwoDecimal->parameter error');
+				return false;
+			}
+			var f_x = Math.round(x * 100) / 100;
+			return f_x;
+		}
+
+		// var userJson = null;
+		apiready = function() {
+			//		var audio_tips = document.getElementById("audio_tips");
+			$(".mui-title").text(api.pageParam.targetName);
+			// 设置会话标题
+			var bodyParam = {
+				'fields' : {
+					'online' : true,
+					'weizhi' : true
+				},
+				where : {
+					"id" : api.pageParam.targetId
+				}
+			};
+			$api.ajax('/user?filter=' + JSON.stringify(bodyParam), 'get', null, function(ret, err) {
+				if (ret && ret[0].online && ret[0].weizhi) {
+					bMap.getDistance({
+						start : {
+							lon : $api.getStorage('jingdu'),
+							lat : $api.getStorage('weidu'),
+						},
+						end : {
+							lon : ret[0].weizhi.lng,
+							lat : ret[0].weizhi.lat
+						}
+					}, function(ret) {
+						if (ret.status) {
+						
+						if (changeTwoDecimal(ret.distance/1000)>0.1){
+							$("#beizhu").text("在线-" + changeTwoDecimal(ret.distance/1000)+"km");
+							}else{
+							
+								$("#beizhu").text("在线-" + changeTwoDecimal(ret.distance)+"m");
+							}
+						} else {
+							$("#beizhu").text("在线");
+						}
+					});
+				} else {
+					$("#beizhu").text("离线");
+				}
+			})
+			// 获取用户信息
+			if (_getStorage('targetid1') != api.pageParam.targetId) {
+				var userJson = _getStorage(window.userKey + "h5");
+				var bodyParam = {
+					'fields' : {
+						'username' : true,
+						'id' : true,
+						'userimg' : true
+					},
+					where : {
+						"id" : api.pageParam.targetId
+					}
+				};
+				$api.ajax('/user?filter=' + JSON.stringify(bodyParam), 'get', null, function(ret, err) {
+					if (ret) {
+					alert(JSON.stringify(ret[0]));
+						userJson.target = ret[0];
+						if (userJson.target) {
+							$api.setStorage('targetid1', api.pageParam.targetId);
+							$api.setStorage('yuanuserJson', userJson);
+						}
+					} else {
+						alert(JSON.stringify(err))
+					}
+				})
+			} else {
+				var userJson = _getStorage('yuanuserJson');
+			}
+			// 引入多选模块
+			uiMediaScanner = api.require('UIMediaScanner');
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			// 引入百度模块
+			bMap = api.require('bMap');
+			// 初始化聊天组件
+			uiChatBox = api.require('UIChatBox');
+			uiChatBox.open({
+				placeholder : '',
+				maxRows : 4,
+				emotionPath : 'widget://image/chatBox/emotion',
+				texts : {
+					recordBtn : {
+						normalTitle : '按住 说话',
+						activeTitle : '松开 结束'
+					}
+				},
+				styles : {
+					inputBar : {
+						borderColor : '#d9d9d9',
+						bgColor : '#f2f2f2'
+					},
+					inputBox : {
+						borderColor : '#B3B3B3',
+						bgColor : '#FFFFFF'
+					},
+					emotionBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_face1.png'
+					},
+					extrasBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_add1.png'
+					},
+					keyboardBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_key1.png'
+					},
+					speechBtn : {
+						normalImg : 'widget://image/chatBox/chatBox_key1.png'
+					},
+					recordBtn : {
+						normalBg : '#c4c4c4',
+						activeBg : '#999999',
+						color : '#000',
+						size : 14
+					},
+					indicator : {
+						target : 'both',
+						color : '#c4c4c4',
+						activeColor : '#9e9e9e'
+					},
+					sendBtn : {//（可选项）JSON对象；发送按钮样式，本参数对 IOS 平台上的键盘内发送按钮无效
+						bg : '#007aff', //（可选项）字符串类型；发送按钮背景颜色，支持rgb、rgba、#、img；默认：#4cc518
+						titleColor : '#ffffff', //（可选项）字符串类型；发送按钮标题颜色；默认：#ffffff
+						activeBg : '#007aff', //（可选项）字符串类型；发送按钮背景颜色，支持rgb、rgba、#、img；默认：无
+						titleSize : 14 //（可选项）数字类型；发送按钮标题字体大小；默认：13
+					}
+				},
+				extras : {
+					titleSize : 10,
+					titleColor : '#a3a3a3',
+					btns : [{
+						title : '图片',
+						normalImg : 'widget://image/chatBox/chatBox_album1.png',
+						activeImg : 'widget://image/chatBox/chatBox_album2.png'
+					}, {
+						title : '拍照',
+						normalImg : 'widget://image/chatBox/chatBox_cam1.png',
+						activeImg : 'widget://image/chatBox/chatBox_cam2.png'
+					}]
+				}
+			}, function(ret) {
+				//点击附加功能面板
+				if (ret.eventType == 'clickExtras') {
+					// 获取点击附件面板的索引
+					var btnIndex = ret.index;
+					switch(btnIndex) {
+						// 点击照片按钮
+						case 0:
+							uiMediaScanner.open({
+								type : 'picture',
+								column : 4,
+								classify : true,
+								max : 9,
+								sort : {
+									key : 'time',
+									order : 'desc'
+								},
+								texts : {
+									stateText : '已选*项',
+									cancelText : '取消',
+									finishText : '完成'
+								},
+								styles : {
+									bg : '#fff',
+									mark : {
+										icon : '',
+										position : 'bottom_left',
+										size : 20
+									},
+									nav : {
+										bg : '#b23e4b',
+										stateColor : '#fff',
+										stateSize : 18,
+										cancelBg : 'rgba(0,0,0,0)',
+										cancelColor : '#fff',
+										cancelSize : 18,
+										finishBg : 'rgba(0,0,0,0)',
+										finishColor : '#fff',
+										finishSize : 18
+									}
+								}
+							}, function(ret) {
+								if (ret) {
+									for (var i = 0; i < ret.list.length; i++) {
+										var selectImg = ret.list[i];
+										// 获取图片的路径
+										var selectimgPath = selectImg.path;
+										var selectimgThumbPath = selectImg.thumbPath;
+										// IOS需要将虚拟路径转换为本地路径才可以压缩
+										if (_isIOS()) {
+											// 转换为真实路径
+											uiMediaScanner.transPath({
+												path : selectimgPath
+											}, function(transObj) {
+												// 图片压缩
+												_imgCompress(imageFilter, transObj.path, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+													// 发送图片消息
+													_sendEvent("sendMsgStart", {
+														msgType : "image",
+														conversationType : api.pageParam.conversationType,
+														targetId : api.pageParam.targetId,
+														content : compressImg,
+														extra : JSON.stringify(userJson)
+													});
+												});
+											});
+										} else {
+											// 图片压缩
+											_imgCompress(imageFilter, selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+												// 发送图片消息
+												_sendEvent("sendMsgStart", {
+													msgType : "image",
+													conversationType : api.pageParam.conversationType,
+													targetId : api.pageParam.targetId,
+													content : compressImg,
+													extra : JSON.stringify(userJson)
+												});
+											});
+										}
+									}
+								}
+							});
+							break;
+						// 打开拍照
+						case 1:
+							api.getPicture({
+								sourceType : "camera",
+								encodingType : "jpg",
+								destinationType : "url",
+								mediaValue : "pic",
+								quality : 50,
+								saveToPhotoAlbum : true
+							}, function(ret, err) {
+								if (ret && ret.data) {
+									// 拍照返回的本地路径
+									var returnUrl = ret.data;
+									// 图片压缩
+									_imgCompress(imageFilter, returnUrl, 0.5, 0.5, _getExt(returnUrl), function(compressImg) {
+										// 发送图片消息
+										_sendEvent("sendMsgStart", {
+											msgType : "image",
+											conversationType : api.pageParam.conversationType,
+											targetId : api.pageParam.targetId,
+											content : compressImg,
+											extra : JSON.stringify(userJson)
+										});
+									});
+								} else {
+									_toast('没有选择，或者选择出错');
+								}
+							});
+							break;
+					}
+				}
+				//点击发送按钮文字
+				if (ret.eventType == 'send') {
+					// 广播开始发送，通知msg页面发送消息
+					_sendEvent("sendMsgStart", {
+						msgType : "text",
+						conversationType : api.pageParam.conversationType,
+						targetId : api.pageParam.targetId,
+						content : ret.msg,
+						extra : JSON.stringify(userJson)
+					});
+				}
+			});
+			// 监听录音键是否被按下
+			uiChatBox.addEventListener({
+				target : 'recordBtn',
+				name : 'press'
+			}, function(ret, err) {
+				_sendEvent("luyindonghuastart");
+				// 录用保存目录
+				var savePath = api.cacheDir + "/" + _getNowFormatDate() + "/";
+				// 录音保存文件名
+				var saveName = _newGuid() + ".amr";
+				// 开始录音
+				api.startRecord({
+					path : savePath + saveName
+				});
+			});
+			//上划
+			//			uiChatBox.addEventListener({
+			//				target : 'recordBtn',
+			//				name : 'move_out'
+			//			}, function(ret, err) {
+			//
+			//			_sendEvent("shanghua");
+			//
+			//			});
+			// 监听录音键是否松开了
+			uiChatBox.addEventListener({
+				target : 'recordBtn',
+				name : 'press_cancel'
+			}, function(ret, err) {
+				_sendEvent("luyindonghuaend");
+				// 停止录音
+				api.stopRecord(function(ret, err) {
+					if (ret && ret.duration > 0) {
+						// 广播开始发送，通知msg页面发送消息
+						// 设置语音时间
+						userJson["duration"] = ret.duration;
+						_sendEvent("sendMsgStart", {
+							msgType : "voice",
+							conversationType : api.pageParam.conversationType,
+							targetId : api.pageParam.targetId,
+							content : ret.path,
+							extra : JSON.stringify(userJson)
+						});
+					} else {
+						//					_sendEvent("luyintaiduan");
+						api.toast({
+							msg : '录音太短'
+						});
+						//                  _sendEvent("luyindonghuaend");
+						//					audio_tips.innerHTML = "录音时间太短";
+					}
+				});
+			});
+			// 监听输入框弹动事件
+			uiChatBox.addEventListener({
+				target : 'inputBar',
+				name : 'move'
+			}, function(ret, err) {
+				setChatInit("chat_frm", ret.panelHeight + ret.inputBarHeight + (_isIOS() ? 0 : 10));
+			});
+			// 监听输入框改变事件
+			uiChatBox.addEventListener({
+				target : 'inputBar',
+				name : 'change'
+			}, function(ret, err) {
+				setChatInit("chat_frm", ret.panelHeight + ret.inputBarHeight + (_isIOS() ? 0 : 10));
+			});
+			// 打开会话
+			var headerPos = $api.offset($api.byId('aui-header'));
+			//			_fixStatusBar("aui-header", function(headerPos) {
+			_openFrame("chat_frm", "chat_frm.html", {
+				x : 0,
+				y : headerPos.h + 5,
+				h : api.winHeight - headerPos.h - (_isIOS() ? 50 : 44)
+			});
+			//			});
+		};
+	</script>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>发布</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/winu-ui.css" />
+		<!--		<link rel="stylesheet" type="text/css" href="../css/api.css"/>-->
+		<style>
+			.image-list {
+				position: relative;
+			}
+			.image-list .uploading {
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				height: 25px;
+				line-height: 25px;
+				width: 100%;
+				font-size: 14px;
+				color: #ffffff;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0 !important;
+			}
+			.image-list .imgdelete {
+				line-height: 24px;
+				display: block;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				color: #ffffff;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0 !important;
+			}
+			.mui-table-view:after {
+				height: 0
+			}
+			.mui-table-view {
+				padding: 0 10px
+			}
+			.mui-table-view:active {
+				background-color: #fff
+			}
+			.mui-input-group:before {
+				height: 0;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object {
+				height: 100%;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin: 1.333333333% 0 0 1.333333333%;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+				padding: 0 0 0 0
+			}
+			.mui-table-view.mui-grid-view {
+				padding: 0 1.333333333% 10px 0;
+			}
+			textarea {
+				line-height: 22px;
+				/* 因为没有找到未知的5px，所以用-5抵消 */
+				margin-bottom: -5px;
+				padding: 12px 0px 2px 2px;
+				border: none
+			}
+			.mui-table-view-cell .mui-media .mui-col-xs-4 {
+				text-align: center;
+			}
+			.mui-col-xs-4 {
+				width: 32.0%
+			}
+			.mui-table-view1 {
+				position: relative;
+				margin-top: 0;
+				margin-bottom: 0;
+				padding-left: 0;
+				list-style: none;
+				background-color: #fff;
+			}
+			.mui-popover {
+				width: 25%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="" >
+			<a class="mui-btn-link mui-pull-right" tapmode onclick="fabu();">发布</a>
+			<a class="mui-btn-link mui-pull-left" tapmode  onclick="api.closeToWin({name: 'root'});">取消</a>
+			<h1 class="mui-title" id="titletext"></h1>
+		</header>
+		<!--<div  id="ditudaohang" style="display: none">
+		<a class="aui-btn  aui-bar-dark aui-pull-left" tapmode onclick="closeWinbaidudaohang()"> <span class="aui-iconfont aui-icon-left"></span> 返回 </a>
+		<div class="aui-title">
+		选择地点
+		</div>
+		</div>-->
+		<div class="mui-content" style="padding-top: 39px;padding-bottom: 20px">
+			<div class="mui-table-view">
+				<textarea id="txtContent" rows="3" placeholder="说点什么吧" onkeyup="ResizeTextarea()" style="overflow-y:hidden;"></textarea>
+				<ul  class="mui-table-view mui-grid-view" id="imgslist">
+					<li class="mui-table-view-cell mui-media mui-col-xs-4"  id="addpic">
+						<img type="image" class=" image-list" style="width:100%;top:3px"   src="../image/iconfont-addphoto1.png" />
+					</li>
+				</ul>
+			</div>
+			<ul class="mui-table-view1" >
+				<li class="mui-table-view-cell" style="font-size: inherit;float: left;width: 70%">
+					<a class="mui-icon mui-icon-location" style="font-size:inherit" id="bmap">显示位置</a>
+				</li>
+				<li class="mui-table-view-cell" style="font-size: inherit;width: 30%;">
+					<span class="mui-icon mui-icon-paperplane"  id="city" href="#Popover_1" style="float:right;font-size: inherit;">本市</span>
+				</li>
+			</ul>
+			<!--	<ul class="mui-table-view mui-table-view-chevron" style="padding:0px;margin-top: 10px">
+			<li class="mui-table-view-cell">
+			<a class="mui-navigate-right"  style="font-size: inherit;" >标签 </a>
+			</li>
+			</ul>-->
+			<form class="mui-input-group" style="margin-top: 10px">
+				<!--<div class="mui-input-row">
+					<label>单价</label>
+					<input id='account'  type="text" class="mui-input-clear mui-input" placeholder="请输入单价">
+				</div>-->
+				<div class="mui-input-row">
+					<label>标签</label>
+					<input  id="biaoqian" type="text" class="mui-input-clear mui-input" placeholder="请输入标签">
+				</div>
+			</form>
+			<!--<form class="mui-input-group" style="margin-top: 10px" >
+			<div class="mui-input-row" onclick="alert1();">
+			<label style="width:18%;float: left ">类型</label>
+			<input id='leixing' style="width:22%;float: left " readonly="ture" type="text" class="mui-input" placeholder="选择类型">
+			<label style="width:18%;float: left ">标签</label>
+			<input id='password'style="width:42%;float: left " type="text" readonly="ture" class="mui-input" placeholder="  选择标签">
+			</div>
+			</form>-->
+		</div>
+		<div id="Popover_1" class="mui-popover mui-bar-popover" >
+			<div class="mui-popover-arrow" ></div>
+			<ul class="mui-table-view1">
+				<li class="mui-table-view-cell" onclick="ceshi(0);">
+					<a href="#">全国</a>
+				</li>
+				<li class="mui-table-view-cell" onclick="ceshi(1);">
+					<a href="#">本市</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript" src="../script/APICloud-rest-SHA1.js"></script>
+	<script type="text/javascript" src="../script/SHA1.js"></script>
+	<!--<script  type="text/javascript" src="../script/Sortable.min.js"></script>-->
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<!--<script type="text/javascript" src="../script/hammer.min.js"></script>-->
+	<script type="text/javascript">
+		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null;
+		var isIOS = false;
+		var tupianshuzu = [];
+		//		var compressImgshuzu = [];
+		var max = 9;
+		var client = new Resource("A6998037533225", "3DD18470-E608-2F73-B738-63B96AC6532A");
+		//对file表进行操作---》
+		window.File = client.Factory("file");
+		// 生成guid,主要用于生成随机文件名
+		function NewGuid() {
+			function S4() {
+				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			}
+
+			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+		}
+
+		// 获取当前的时间，拼接成2015-11-09这样的格式，主要用于对图片进行时间分类
+		function getNowFormatDate() {
+			var date = new Date();
+			var seperator1 = "-";
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = year + seperator1 + month + seperator1 + strDate
+			return currentdate;
+		}
+
+		function ceshi(x) {
+			mui('.mui-popover').popover('hide');
+			if (x) {
+				$api.text($api.byId("fanwei"), "本市");
+			} else {
+				$api.text($api.byId("fanwei"), "全国");
+			}
+		}
+
+		function ResizeTextarea() {
+			// 最小高度
+			var minRows = 3;
+			// 最大高度，超过则出现滚动条
+			var maxRows = 8;
+			var t = document.getElementById('txtContent');
+			if (t.scrollTop == 0)
+				t.scrollTop = 1;
+			while (t.scrollTop == 0) {
+				if (t.rows > minRows)
+					t.rows--;
+				else
+					break;
+				t.scrollTop = 1;
+				if (t.rows < maxRows)
+					t.style.overflowY = "hidden";
+				if (t.scrollTop > 0) {
+					t.rows++;
+					break;
+				}
+			}
+			while (t.scrollTop > 0) {
+				if (t.rows < maxRows) {
+					t.rows++;
+					if (t.scrollTop == 0)
+						t.scrollTop = 1;
+				} else {
+					t.style.overflowY = "auto";
+					break;
+				}
+			}
+		}
+
+		// 获取文件拓展名
+		function getExt(fileName) {
+			return fileName.substring(fileName.lastIndexOf('.') + 1);
+		}
+
+		// 图片压缩
+		// imgsrc：源图片的路径
+		// quality：图片压缩质量，一般建议0.5
+		// scale：图片压缩比例，也是建议0.5
+		// ext：源图片拓展名
+		// callback：转换成功之后回调函数
+		function imgCompress(imgsrc, quality, scale, ext, callback) {
+			// 压缩文件的保存目录
+			var savePath = api.cacheDir + "/" + getNowFormatDate() + "/";
+			// 压缩文件生成的随机文件名称
+			var savename = NewGuid() + "." + ext;
+			imageFilter.compress({
+				img : imgsrc,
+				quality : quality,
+				scale : scale,
+				save : {
+					album : false,
+					imgPath : savePath,
+					imgName : savename
+				}
+			}, function(ret, err) {
+				if (ret) {
+					callback(savePath + savename);
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		// 打开图片浏览
+		// imgs：需要预览的图片集合
+		function openImageBrowser(imgs, index) {
+			imageBrowser.openImages({
+				imageUrls : imgs,
+				showList : false,
+				activeIndex : index
+			});
+		}
+
+		//		// 添加删除方法
+		function addPress(compressImg) {
+			if (document.getElementById("addpic")) {
+				$("#imgslist img[src='" + compressImg + "']").parent("li").remove();
+				tupianshuzu.splice($("#imgslist img[src='" + compressImg + "']").parent("li").index(), 1);
+				setTimeout(function() {
+					max = 9 - tupianshuzu.length;
+				}, 1000);
+			} else {
+				tupianshuzu.splice($("#imgslist img[src='" + compressImg + "']").parent("li").index(), 1);
+				max = 9 - tupianshuzu.length;
+				$("#imgslist img[src='" + compressImg + "']").parent("li").html('<li class="mui-table-view-cell mui-media mui-col-xs-4"  id="addpic"><img type="image" class="image-list" style="width:100%;top:3px"  src="../image/iconfont-addphoto1.png" /></li>');
+			}
+		}
+
+		Zepto(function($) {
+			//		var tuodong=document.getElementById('imgslist');
+			//
+			//		new Sortable(tuodong, {group: "words",
+			//				store: {
+			//					get: function (sortable) {
+			//						var order = localStorage.getItem(sortable.options.group);
+			//						return order ? order.split('|') : [];
+			//					},
+			//					set: function (sortable) {
+			//						var order = sortable.toArray();
+			//						localStorage.setItem(sortable.options.group, order.join('|'));
+			//					}
+			//				},});
+			// 获取图片宽高
+			// ###############################################################
+			// 为图片添加点击预览功能,排除添加按钮,此处换为touched，阻止点透现象
+			$("#imgslist").on("click", "li:not(#addpic)", function() {
+				// 定义一个数组，存储需要预览的图片
+				var browerImgs = [];
+				var index = $(this).index();
+				$("#imgslist li:not(#addpic)").each(function() {
+					// 将图片追加到数组中
+					browerImgs.push($(this).find("img").attr("src"));
+				});
+				// 调用图片预览函数
+				openImageBrowser(browerImgs, index);
+				//阻止默认行为
+				//			event.preventDefault();
+			});
+			// 添加图片绑定点击事件
+			$("#imgslist").on("touchend", "#addpic", function() {
+				api.actionSheet({
+					buttons : ['拍照', '相册选取'],
+					style : {
+						layerColor : '(0,0,0,0.9)'
+					}
+				}, function(ret, err) {
+					var index = ret.buttonIndex;
+					switch(index) {
+						// 拍照
+						case 1:
+							// 打开拍照
+							api.getPicture({
+								sourceType : "camera",
+								encodingType : "jpg",
+								destinationType : "url",
+								mediaValue : "pic",
+								quality : 50,
+								saveToPhotoAlbum : true
+							}, function(ret, err) {
+								if (ret && ret.data) {
+									// 拍照返回的本地路径
+									var returnUrl = ret.data;
+									// 图片压缩
+									imgCompress(returnUrl, 0.7, 0.5, getExt(returnUrl), function(compressImg) {
+										bijiaotupian(compressImg, function(compressImg) {
+											//								compressImgshuzu.push(compressImg);
+											File.save({
+												file : {
+													isFile : true,
+													path : compressImg,
+													values : {
+														filename : NewGuid() + "." + getNowFormatDate() + '.png'
+													}
+												}
+											}, function(data, err) {
+												if (data) {
+													//拿到返回的服务器图片地址的链接->存到Storage的储存区
+													tupianshuzu.push(data.url);
+													//							$api.setStorage('userimg', data.url);
+													$api.text($api.byId('' + compressImg + ''), '上传完成');
+													$api.css($api.byId('' + compressImg + '1'), 'display:block');
+													setTimeout(function() {
+														$api.remove($api.byId('' + compressImg + ''), ' ')
+													}, 2000)
+													//					uploadImage(length - 1);
+												} else {
+													$api.text($api.byId('' + compressImg + ''), '上传失败');
+													$api.css($api.byId('' + compressImg + '1'), 'display:block');
+													alert(JSON.stringify(err));
+													//					alert("重新开始上传" + length);
+												}
+											});
+										});
+										setTimeout(function() {
+											if (tupianshuzu.length >= 9) {
+												//									$("#addpic").remove();
+											} else {
+												max = 9 - tupianshuzu.length;
+											}
+										}, 0)
+									});
+								} else {
+									api.toast({
+										msg : '没有选择，或者选择出错'
+									});
+								}
+							});
+							break;
+						// 打开图片选择器
+						case 2:
+							uiMediaScanner.open({
+								column : 4,
+								max : max,
+								sort : {
+									key : 'time',
+									order : 'desc'
+								},
+								exchange : true,
+								styles : {
+									bg : '#fff',
+									mark : {
+										icon : '',
+										position : 'bottom_left',
+										size : 30
+									},
+									nav : {
+										bg : '#3980c8',
+										stateColor : '#ffffff',
+										stateSize : 18,
+										cancleBg : 'rgba(0,0,0,0)',
+										cancelColor : '#ffffff',
+										cancelSize : 18,
+										finishBg : 'rgba(0,0,0,0)',
+										finishColor : '#ffffff',
+										finishSize : 18
+									}
+								}
+							}, function(ret) {
+								if (ret) {
+									chulitupian(ret);
+								}
+							});
+							break;
+					}
+				});
+			});
+		});
+		function chulitupian(ret) {
+			for (var i = 0; i < ret.list.length; i++) {
+				//												(function(a) {
+				var selectImg = ret.list[i];
+				// 获取图片的路径
+				var selectimgPath = selectImg.path;
+				var selectimgThumbPath = selectImg.thumbPath;
+				// IOS需要将虚拟路径转换为本地路径才可以压缩
+				if (isIOS) {
+					// 转换为真实路径
+					uiMediaScanner.transPath({
+						path : selectimgPath
+					}, function(transObj) {
+						// 图片压缩
+						imgCompress(transObj.path, 0.7, 0.5, selectImg.suffix, function(compressImg) {
+							//							compressImgshuzu.push(compressImg);
+							bijiaotupian(compressImg, function(compressImg) {
+								//								compressImgshuzu.push(compressImg);
+								File.save({
+									file : {
+										isFile : true,
+										path : compressImg,
+										values : {
+											filename : NewGuid() + "." + getNowFormatDate() + '.png'
+										}
+									}
+								}, function(data, err) {
+									if (data) {
+										//拿到返回的服务器图片地址的链接->存到Storage的储存区
+										tupianshuzu.push(data.url);
+										//							$api.setStorage('userimg', data.url);
+										$api.text($api.byId('' + compressImg + ''), '上传完成');
+										$api.css($api.byId('' + compressImg + '1'), 'display:block');
+										setTimeout(function() {
+											$api.remove($api.byId('' + compressImg + ''), ' ')
+										}, 2000)
+										//					uploadImage(length - 1);
+									} else {
+										$api.text($api.byId('' + compressImg + ''), '上传失败');
+										$api.css($api.byId('' + compressImg + '1'), 'display:block');
+										alert(JSON.stringify(err));
+										//					alert("重新开始上传" + length);
+									}
+								});
+							});
+							setTimeout(function() {
+								if (tupianshuzu.length + i >= 9) {
+									//									$("#addpic").remove();
+								} else {
+									max = 9 - tupianshuzu.length - i;
+								}
+							}, 0)
+						});
+					});
+				} else {
+					// 图片压缩
+					imgCompress(selectimgPath, 0.7, 0.5, selectImg.suffix, function(compressImg) {
+						// 追加图片
+						//						compressImgshuzu.push(compressImg);
+						bijiaotupian(compressImg, function(compressImg) {
+							//							compressImgshuzu.push(compressImg);
+							File.save({
+								file : {
+									isFile : true,
+									path : compressImg,
+									values : {
+										filename : NewGuid() + "." + getNowFormatDate() + '.png'
+									}
+								}
+							}, function(data, err) {
+								if (data) {
+									//拿到返回的服务器图片地址的链接->存到Storage的储存区
+									tupianshuzu.push(data.url);
+											api.toast({
+								msg : '这是第'+tupianshuzu.length+'张图片',
+								duration : 1000,
+								location : 'top'
+							});
+									//							$api.setStorage('userimg', data.url);
+									$api.text($api.byId('' + compressImg + ''), '上传完成');
+									$api.css($api.byId('' + compressImg + '1'), 'display:block');
+									setTimeout(function() {
+										$api.remove($api.byId('' + compressImg + ''), ' ')
+									}, 2000)
+									//					uploadImage(length - 1);
+								} else {
+//									alert(tupianshuzu.length);
+									api.toast({
+								msg : '这是第'+tupianshuzu.length+'张图片',
+								duration : 1000,
+								location : 'top'
+							});
+									$api.text($api.byId('' + compressImg + ''), '上传失败');
+									$api.css($api.byId('' + compressImg + '1'), 'display:block');
+									alert(JSON.stringify(err));
+									//					alert("重新开始上传" + length);
+								}
+							});
+						});
+						setTimeout(function() {
+							if (tupianshuzu.length + i >= 9) {
+								//								$("#addpic").remove();
+							} else {
+								max = 9 - tupianshuzu.length - i;
+							}
+						}, 0)
+					});
+				}
+			}
+			//			callback(i);
+		}
+
+		//		function uploadImage(length) {
+		//			if (length == 0) {
+		//				return;
+		//			}
+		//			File.save({
+		//				file : {
+		//					isFile : true,
+		//					path : compressImgshuzu[length - 1],
+		//					values : {
+		//						filename : NewGuid() + "." + getNowFormatDate() + '.png'
+		//					}
+		//				}
+		//			}, function(data, err) {
+		//				if (data) {
+		//					//							alert(JSON.stringify(data.url));
+		//					//拿到返回的服务器图片地址的链接->存到Storage的储存区
+		//					tupianshuzu.unshift(data.url);
+		//					//							$api.setStorage('userimg', data.url);
+		//					api.toast({
+		//						msg : '上传成功' + length,
+		//						duration : 1000,
+		//						location : 'top'
+		//					});
+		//					uploadImage(length - 1);
+		//				} else {
+		//					alert(JSON.stringify(err) + length);
+		//					//					alert("重新开始上传" + length);
+		//					//					uploadImage(length);
+		//				}
+		//			});
+		//		};
+		function bijiaotupian(compressImg, callback) {
+			//			compressImgshuzu.push(compressImg);
+			//		alert(compressImg);
+			var normalW = $("#addpic").width();
+			imageFilter.getAttr({
+				path : compressImg
+			}, function(ret, err) {
+				// 	 			alert(JSON.stringify(ret));
+				var tupianwidth = ret.width;
+				var tupianheight = ret.height;
+				//		alert(tupianwidth);
+				//		alert(tupianheight);
+				if (tupianwidth > tupianheight) {
+					tupianwidth = (normalW / tupianheight) * tupianwidth
+					var pianyi = (tupianwidth - normalW) / 2;
+					$("#addpic").before('<li class="mui-table-view-cell mui-media mui-col-xs-4 image-list" style="height:' + normalW + 'px;"><img  class="image-list" style="height:100%;right:' + pianyi + 'px;"  src="' + compressImg + '" ><div class="uploading" id="' + compressImg + '">上传中</div><span  style="display:none" id="' + compressImg + '1" class="imgdelete mui-icon mui-icon-close" onclick="event.stopPropagation();addPress((\'' + compressImg + '\'));" ></span></li>');
+				} else {
+					tupianheight = (normalW / tupianwidth) * tupianheight
+					var pianyi = (tupianheight - normalW) / 2;
+					$("#addpic").before('<li class="mui-table-view-cell mui-media mui-col-xs-4 image-list" style="height:' + normalW + 'px;"><img  class="image-list" style="width:100%;bottom:' + pianyi + 'px;" src="' + compressImg + '" ><div class="uploading" id="' + compressImg + '">上传中</div><span style="display:none" id="' + compressImg + '1" class="imgdelete mui-icon mui-icon-close" onclick="event.stopPropagation();addPress((\'' + compressImg + '\'));"></span></li>');
+				}
+				//				addPress($("#imgslist img[src='" + compressImg + "'] span"));
+			});
+			callback(compressImg);
+		}
+
+
+		function fabu() {
+			api.notification({
+				vibrate : [300, 500],
+				sound : 'default',
+				light : false,
+				notify : {
+					title : '消息圈',
+					content : "正在发布中..",
+					updateCurrent : false,
+					//								extra : JSON.stringify(ret.result.message)
+				}
+			}, function(ret, err) {
+				$api.setStorage('notificationid', ret.id);
+			});
+			var data = {};
+			data['userid'] = $api.getStorage('accessToken');
+			data['username'] = $api.getStorage('username');
+			data['userimg'] = $api.getStorage('userimg');
+			data['city'] = $api.text($api.byId("city"));
+			data['tupian'] = tupianshuzu;
+			data['biaoqian'] = [$api.getStorage('dongzuo'), $api.getStorage('fenlei')];
+			data['neirong'] = $api.val($api.byId("txtContent"));
+			$api.ajax('/fabu/', 'post', data, function(ret, err) {
+				if (ret) {
+					api.cancelNotification({
+						id : $api.getStorage('notificationid')
+					});
+					_sendEvent("sendfabusuccessed", {
+								id : $api.getStorage('accessToken')
+							});
+						api.toast({
+								msg : '发布成功',
+								duration : 1000,
+								location : 'top'
+							});
+					api.closeToWin({
+	                    name: 'root'
+                    });
+				}
+			})
+		}
+
+		apiready = function() {
+			$api.text(titletext, "#"+$api.getStorage('dongzuo') + " #" + $api.getStorage('fenlei'));
+			$api.val($api.byId("biaoqian"), $api.getStorage('dongzuo') + "  " + $api.getStorage('fenlei'));
+			var header = $api.byId('aui-header');
+			//			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			// 引入多选模块
+			uiMediaScanner = api.require('UIMediaScanner');
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			// 引入图片浏览模块
+			imageBrowser = api.require('imageBrowser');
+			// 引入百度模块
+			bMap = api.require('bMap');
+			// 判断是否是IOS系统
+			isIOS = api.systemType == "ios" ? true : false;
+			//			var dangqianweizhi1=$api.getStorage('dangqianaddress');
+			var dangqianaddress = $api.getStorage('dangqianaddress');
+			if (dangqianaddress != null && dangqianaddress != undefined && dangqianaddress != 0) {
+				$("#bmap").text(dangqianaddress);
+			} else {
+				bMap = api.require('bMap');
+				bMap.getLocation({
+					accuracy : '10m',
+					autoStop : true,
+					filter : 1
+				}, function(ret, err) {
+					if (ret.status) {
+						$api.setStorage('jingdu', '' + ret.lon + '');
+						$api.setStorage('weidu', '' + ret.lat + '');
+						bMap.getNameFromCoords({
+							lon : ret.lon,
+							lat : ret.lat
+						}, function(ret, err) {
+							if (ret.status) {
+								// 设置给位置
+								//						var html='<a>' + ret.city + '</a>';
+								$api.setStorage('city', '' + ret.city + '');
+								$api.setStorage('dangqianaddress', '' + ret.address + '');
+							}
+						});
+					} else {
+						alert(err.code);
+					}
+				});
+			}
+//			$("#bmap").on("touchend", function() {
+//				$api.css($api.byId("aui-header1"), 'display:none');
+//				$api.css($api.byId("ditudaohang"), 'display:block');
+//				bMap.open({
+//					rect : {
+//						x : 0,
+//						y : headerPos.h,
+//						w : headerPos.w,
+//						h : 150
+//					},
+//					center : {
+//						lon : $api.getStorage('jingdu'),
+//						lat : $api.getStorage('weidu')
+//					},
+//					zoomLevel : 18,
+//					showUserLocation : true,
+//					fixed : true
+//				}, function(ret) {
+//					if (ret.status) {
+//						alert('地图打开成功');
+//					}
+//				});
+//			})
+		}
+	</script>
+</html>

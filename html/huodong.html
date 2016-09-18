@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html, body {
+				background-color: #efeff4;
+			}
+			.mui-bar~
+			.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~
+			.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				 -webkit-transition-duration: 400ms;
+				 transition-duration: 400ms;*/
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon, .mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1  style="top: -6px;height: 30px" class="mui-title">选项卡切换+下拉刷新
+			</h1>
+			<p style="top: 22px;position: relative;text-align: center" id="beizhu">
+				ceshi
+			</p>
+		</header>
+		<div class="mui-content">
+			
+				
+				
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell" id="mui-table-view">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-2
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-3
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-4
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-5
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-6
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-7
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-8
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-9
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-10
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-11
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-12
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-13
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-14
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-15
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-16
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-17
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-18
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-19
+									</li>
+									<li class="mui-table-view-cell">
+										第1个选项卡子项-20
+									</li>
+								</ul>
+						
+			</div>
+		</div>
+		<script src="../script/mui.min.js"></script>
+		<script src="../script/zepto.min.js"></script>
+	
+		<script>
+		apiready=function(){
+		
+		$(window).scroll(function(){
+		var h=$("div").scrollTop();
+		api.toast({
+	        msg:h
+        });
+		
+		})
+		
+		
+		}
+			
+		</script>
+	</body>
+</html>

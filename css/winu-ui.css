@@ -1,0 +1,170 @@
+/*
+ * 版权所有：中山赢友网络科技有限公司（http://www.winu.net/，http://www.appsoft.io)
+ * 开发人员：新生帝(JsonLei)
+ * 设计名称：APICloud通用脚本库
+ * 软件版本：V1.0.0 Beta
+ * 设计时间：2015年11月17号
+ * 设计理念：只为了更懒和那份不可替代性！
+ */
+
+html {
+	font-size: 100%;
+}
+body {
+	font-size: 1em;
+}
+html, body {
+	height: 100%;
+	width: 100%;
+}
+.winu-width-100 {
+	width: 100%;
+}
+.winu-white-spance-nowrap {
+	white-space: nowrap;
+}
+.winu-background-opacity {
+	background: rgba(0,0,0,0);
+}
+.winu-background-white {
+	background: #fff;
+}
+.winu-clear-both {
+	clear: both;
+}
+.winu-text-align-center {
+	text-align: center;
+}
+.winu-text-align-left {
+	text-align: left;
+}
+.winu-text-align-right {
+	text-align: right;
+}
+.winu-float-left {
+	float: left;
+}
+.winu-float-right {
+	float: right;
+}
+.winu-float-none {
+	float: none;
+}
+.winu-display-none {
+	display: none;
+}
+.winu-display-block {
+	display: block;
+}
+.winu-display-inline {
+	display: inline;
+}
+.winu-display-inline-block {
+	display: inline-block;
+}
+.winu-box-sizing-border-box {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.winu-box-sizing-content-box {
+	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+}
+.winu-position-absolute {
+	position: absolute;
+}
+.winu-position-relative {
+	position: relative;
+}
+.winu-position-fixed {
+	position: fixed;
+}
+.winu-min-height {
+	min-height: 0;
+	height: auto;
+	overflow: hidden;
+}
+.winu-pre {
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	font-size: 16px;
+}
+.winu-flex-box-vertical {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-flex-flow: column;
+	flex-flow: column;
+	height: 100%;
+}
+.winu-flex-box-horizontal {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-flex-flow: row;
+	flex-flow: row;
+	width: 100%;
+}
+.winu-flex-item {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+.winu-maring-top-10 {
+	margin-top: 10px;
+}
+.winu-center-all {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+}
+.winu-center-vertical {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: center;
+	display: box;
+	box-orient: horizontal;
+	box-align: center;
+}
+.winu-center-horizontal {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+}
+.winu-center-horizontal-end {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: end;
+	display: box;
+	box-orient: horizontal;
+	box-pack: end;
+}
+.winu-center-horizontal-start {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: start;
+	display: box;
+	box-orient: horizontal;
+	box-pack: start;
+}
+.winu-border-radius-50 {
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+.winu-transition-all {
+	transition: All 1.5s ease;
+	-webkit-transition: All 1.5s ease;
+}

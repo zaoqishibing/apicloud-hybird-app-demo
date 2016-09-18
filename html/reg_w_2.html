@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<!--aui-win.css会造成选择器选项的失效-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/aui-win.css"/>-->
+		<link href="../css/mui.picker.min.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			body {
+				background: #f5f5f5;
+				overflow: hidden;
+			}
+			.aui-btn {
+				background-color: #fff;
+				border: none;
+				margin: 10px
+			}
+			.aui-nav {
+				position: fixed;
+				right: 0;
+				left: 0;
+				bottom: 0;
+				z-index: 10;
+				width: 100%;
+				height: 55px;
+				background-color: #fff;
+			}
+			.aui-pull-left {
+				float: left !important;
+			}
+			.aui-pull-right {
+				float: right !important;
+			}
+			.aui-pull-left, .aui-pull-right {
+				width: 55px;
+				height: 55px;
+				/*border: 1px solid #eeeeee;*/
+				text-align: center;
+			}
+			#imageclipTool {
+				display: none;
+				height: 50px;
+				padding-top: 5px;
+				background: #ffffff;
+			}
+			/*上空下线的view容器*/
+			.mui-input-group:before {
+				height: 0;
+			}
+			.mui-input-group:after {
+				height: 0;
+			}
+			.avatar {
+				/*width: 100%;*/
+				text-align: center;
+				margin: 10px 0 5 0;
+			}
+			.avatar img {
+				width: 100px;
+				height: 100px;
+				margin: 5px 0;
+				-webkit-border-radius: 50%;
+				border-radius: 50%;
+				/*border:1px #007aff dashed;*/
+			}
+			.mui-table-view1 {
+				position: relative;
+				margin-top: 0;
+				margin-bottom: 0;
+				padding-left: 0;
+				list-style: none;
+				background-color: #fff;
+			}
+			.mui-table-view1:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #eee;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="aui-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" tapmode onclick="api.closeWin();"></a>
+			<h1 class="mui-title">个人信息(2/2)</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-table-view" style="margin-top: 10px;">
+				<div class="avatar">
+					<img src="../image/iconfont-addphoto1.png" topmade="" onclick="changeAvatar();"  id="avatarImg">
+				</div>
+				<input type="hidden" id="avatar">
+			</div>
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input id='account'  type="text" class="mui-input-clear mui-input" placeholder="请输入用户名">
+				</div>
+			</form>
+			<!--/*裁剪*/-->
+			<div class="aui-nav  " id="imageclipTool">
+				<a class="aui-btn   aui-pull-left" tapmode onclick="imageClipClose();"> 取消 </a>
+				<a class="aui-btn  aui-pull-right" tapmode onclick="imageClipSave();"> 完成 </a>
+			</div>
+			<ul class="mui-table-view1 mui-table-view-radio">
+				<li class="mui-table-view-cell  mui-selected" style="width: 50%;float:left;border-right:1px solid #eee" >
+					<a class="mui-navigate-right">男</a>
+				</li>
+				<li class="mui-table-view-cell " style="width: 50%;">
+					<a class="mui-navigate-right">女</a>
+				</li>
+			</ul>
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>出生日期</label>
+					<input id='pickDateBtn' style=" float:left;"  type="text" class="mui-input-clear mui-input" placeholder="请选择出生日期">
+				</div>
+				<div class="mui-input-row">
+					<label>所在地</label>
+					<input id='showCityPicker3' style=" float:left;" type="text" class="mui-input-clear mui-input" placeholder="请输入所在地">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-blue"  onclick="wancheng();">
+					完成
+				</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/winu-base.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/APICloud-rest-SHA1.js"></script>
+	<!--<script type="text/javascript" src=".../script/APICloud-rest.js"></script>-->
+	<script type="text/javascript" src="../script/hashes.min.js"></script>
+	<script type="text/javascript" src="../script/ajaxToRongCloud.js"></script>
+	<script type="text/javascript" src="../script/SHA1.js"></script>
+	<script type="text/javascript" src="../script/mui.min.js"></script>
+	<script type="text/javascript" src="../script/echo.js"></script>
+	<!--<script type="text/javascript" src="../script/common.js"></script>-->
+	<!--<script type="text/javascript"src="../script/aui_compress.min.js"></script>-->
+	<!--时间选择器-->
+	<script src="../script/mui.picker.min.js"></script>
+	<script src="../script/mui.poppicker.js"></script>
+	<script src="../script/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var client = new Resource("A6998037533225", "3DD18470-E608-2F73-B738-63B96AC6532A");
+		//对file表进行操作---》
+		window.File = client.Factory("file");
+		var imageClip;
+		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null;
+		var isIOS = false;
+		// 生成guid,主要用于生成随机文件名
+		function NewGuid() {
+			function S4() {
+				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			}
+
+			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+		}
+
+		// 获取当前的时间，拼接成2015-11-09这样的格式，主要用于对图片进行时间分类
+		function getNowFormatDate() {
+			var date = new Date();
+			var seperator1 = "-";
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = year + seperator1 + month + seperator1 + strDate
+			return currentdate;
+		}
+
+		//		function uploadFile(url, data, callback) {
+		//			api.ajax({
+		//				url : url,
+		//				method : 'post',
+		//				timeout : 30,
+		//				dataType : 'json',
+		//				returnAll : false,
+		//				data : {
+		//					files : {
+		//						"pic" : data
+		//					}
+		//				}
+		//			}, function(ret, err) {
+		//				if (ret) {
+		//					if (ret.statu == 1) {
+		//						callback(ret.path);
+		//					} else if (ret.statu == 0) {
+		//						alert("上传失败");
+		//					}
+		//				} else {
+		//					api.alert({
+		//						msg : ('错误码：' + err.code + '；错误信息：' + err.msg + '；网络状态码：' + err.statusCode)
+		//					});
+		//				}
+		//			});
+		//		}
+		function getExt(fileName) {
+			return fileName.substring(fileName.lastIndexOf('.') + 1);
+		}
+
+		// 图片压缩
+		// imgsrc：源图片的路径
+		// quality：图片压缩质量，一般建议0.5
+		// scale：图片压缩比例，也是建议0.5
+		// ext：源图片拓展名
+		// callback：转换成功之后回调函数
+		function imgCompress(imgsrc, quality, scale, ext, callback) {
+			// 压缩文件的保存目录
+			var savePath = api.cacheDir + "/" + getNowFormatDate() + "/";
+			// 压缩文件生成的随机文件名称
+			var savename = NewGuid() + "." + ext;
+			imageFilter.compress({
+				img : imgsrc,
+				quality : quality,
+				scale : scale,
+				save : {
+					album : false,
+					imgPath : savePath,
+					imgName : savename
+				}
+			}, function(ret, err) {
+				if (ret) {
+					callback(savePath + savename);
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+//		function showDefault() {
+//			$api.css($api.byId("loading"), "display:none");
+//			$api.css($api.byId("default"), "display:block");
+//			setTimeout(function() {
+//				$api.css($api.byId("default"), "display:none");
+//			}, 2000)
+//		}
+//
+//		function showLoading() {
+//			$api.css($api.byId("loading"), "display:block");
+//		}
+
+		apiready = function() {
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			imageClip = api.require('imageClip');
+			$api.setStorage('sex', '男');
+			var list = document.querySelector('.mui-table-view1.mui-table-view-radio');
+			list.addEventListener('selected', function(e) {
+				var sex = e.detail.el.innerText;
+				$api.setStorage('sex', '' + sex + '');
+			});
+			(function($, doc) {
+				var cityPicker3 = new $.PopPicker({
+					layer : 3
+				});
+				cityPicker3.setData(cityData3);
+				var showCityPickerButton = doc.getElementById('showCityPicker3');
+				showCityPickerButton.addEventListener('tap', function(event) {
+					cityPicker3.show(function(items) {
+						$api.val(showCityPicker3, (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text);
+						$api.setStorage('address', '' + (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[1] || {}).text + '');
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+					});
+				}, false);
+				var pickDateBtn = doc.getElementById('pickDateBtn');
+				doc.getElementById('pickDateBtn').addEventListener('tap', function() {
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的
+					 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例
+					 化 DtPicker
+					 */
+					var picker = new $.DtPicker({
+						"value" : "1990-10-10",
+						"type" : "date",
+						"beginYear" : 1950,
+						"endYear" : 2017
+					});
+					picker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和
+						 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母）
+						 ，用法同年
+						 */
+						$api.val(pickDateBtn, rs.text);
+						$api.setStorage('birthday', '' + rs.text + '');
+						/*
+						 * 返回 false 可以阻止选择框的关闭
+						 * return false;
+						 */
+						/*
+						 * 释放组件资源，释放后将将不能再操
+						 作组件
+						 * 通常情况下，不需要示放组件，new
+						 DtPicker(options) 后，可以一直使用。
+						 * 当前示例，因为内容较多，如不进行
+						 资原释放，在某些设备上会较慢。
+						 * 所以每次用完便立即调用 dispose
+						 进行释放，下次用时再创建新实例。
+						 */
+						picker.dispose();
+					});
+				}, false);
+			})(mui, document);
+		}
+		function wancheng() {
+							api.showProgress({
+		              });
+			var phone = api.pageParam.phone;
+			var password = api.pageParam.password
+			var account = document.getElementById("account").value;
+			$api.setStorage('username', '' + account + '');
+			$api.setStorage("phone", '' + phone + '');
+			$api.setStorage("password", '' + password + '');
+			var appKeyIM = "uwd1c0sxd9wd1";
+			var appSecretIM = "MpgSozw12vZF";
+			var nameIm = $api.getStorage('username');
+			var portraitUriIM = $api.getStorage('userimg');
+			var data = {};
+			data['mobile'] = $api.getStorage('phone');
+			data['password'] = $api.getStorage('password');
+			data['userimg'] = $api.getStorage('userimg');
+			data['username'] = $api.getStorage('username');
+			data['sex'] = $api.getStorage('sex');
+			data['birthday'] = $api.getStorage('birthday');
+			data['address'] = $api.getStorage('address');
+			$api.ajax('/user/', 'post', data, function(ret, err) {
+				if (ret) {
+					//					alert("post" + JSON.stringify(ret));
+					$api.setStorage('accessToken1', ret.id);
+					// 是否初始化首页频道
+					var userIdIM = $api.getStorage('accessToken1');
+					ajaxToRongCloud(appKeyIM, appSecretIM, userIdIM, nameIm, portraitUriIM, function(ret, err) {
+						if (ret && ret.token) {
+							$api.setStorage('imToken', ret.token);
+							//							alert("imtoken" + JSON.stringify(ret));
+							var data = {
+								imToken : ret.token,
+								online:true,
+								weizhi:{lat:$api.getStorage('weidu'),lng:$api.getStorage('jingdu')}
+							}
+							$api.ajax('/user/' + userIdIM, 'put', data, function(ret, err) {
+								if (ret) {
+									var bodyParam = {
+										'fields' : {
+											'username' : true,
+											'id' : true,
+											'userimg' : true,
+											'imToken' : true,
+										},
+										where : {
+											"id" : userIdIM
+										}
+									};
+									$api.ajax('/user?filter=' + JSON.stringify(bodyParam), 'get', null, function(ret, err) {
+										if (ret) {
+											_setStorage(window.userKey + "h5", ret[0]);
+											$api.setStorage( 'targetid1' , ret[0].id);
+										}
+									})
+									$api.setStorage('accessToken', ret.id);
+									//						api.sendEvent({
+									//								name: 'login_success'
+									//							});
+									//	
+									api.hideProgress();				api.hideProgress();
+									api.openWin({
+										name : 'root',
+										url : '../index.html'
+									});
+									api.closeToWin({
+										name : 'root',
+										animation : {
+											type : 'push',
+											subType : 'from_right',
+											duration : 500
+										}
+									});
+								} else {
+									alert(JSON.stringify(err));
+								}
+							})
+						} else {
+							alert(JSON.stringify(err));
+						}
+					})
+				} else {
+					alert(JSON.stringify(err));
+				}
+			})
+			
+		}
+
+		function imageClipSave() {
+			imageClip.save(function(ret, err) {
+				if (ret) {
+					var returnUrl = ret.savePath;
+					// 图片压缩
+					imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+						var logoImgDom = $api.byId('avatarImg');
+						$api.attr(logoImgDom, 'data-echo', '' + compressImg + '');
+						echo.init({
+							offset : 0,
+							throttle : 250
+						});
+						File.save({
+							file : {
+								isFile : true,
+								path : compressImg,
+								values : {
+									filename : NewGuid() + "." + getNowFormatDate() + '.png'
+								}
+							}
+						}, function(data, err) {
+							//							alert(JSON.stringify(data.url));
+							//拿到返回的服务器图片地址的链接->存到Storage的储存区
+							$api.setStorage('userimg', data.url);
+							api.toast({
+								msg : '头像上传成功',
+								duration : 1000,
+								location : 'top'
+							});
+						});
+					});
+					imageClipClose();
+				}
+			})
+		}
+
+		function imageClipClose() {
+			imageClip.close();
+			var toolDom = $api.byId('imageclipTool');
+			$api.css(toolDom, 'display:none');
+		}
+
+		function changeAvatar() {
+			api.actionSheet({
+				cancelTitle : '取消',
+				buttons : ['相册', '拍照']
+			}, function(ret, err) {
+				//				var winWidth = api.winWidth;
+				//				var listHeight = winWidth / 3 - 12;
+				if (ret.buttonIndex == 1) {
+					api.getPicture({
+						sourceType : 'library',
+						encodingType : 'jpg',
+						mediaValue : 'pic',
+						destinationType : 'url',
+						allowEdit : true,
+						quality : 80,
+					}, function(ret, err) {
+						if (ret.data) {
+							if (api.systemType == 'ios') {
+//								api.showProgress({
+//									style : 'default',
+//									animationType : 'fade',
+//									title : '正在上传',
+//									text : '请稍候',
+//									modal : false
+//								});
+								var returnUrl = ret.data;
+								// 图片压缩
+								imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+									var logoImgDom = $api.byId('avatarImg');
+									$api.attr(logoImgDom, 'data-echo', '' + ret.data + '');
+									echo.init({
+										offset : 0,
+										throttle : 250
+									});
+									File.save({
+							file : {
+								isFile : true,
+								path : compressImg,
+								values : {
+									filename : NewGuid() + "." + getNowFormatDate() + '.png'
+								}
+							}
+						}, function(data, err) {
+							//							alert(JSON.stringify(data.url));
+							//拿到返回的服务器图片地址的链接->存到Storage的储存区
+							$api.setStorage('userimg', data.url);
+							api.toast({
+								msg : '头像上传成功',
+								duration : 1000,
+								location : 'top'
+							});
+						});
+								});
+							} else {
+								var toolDom = $api.byId('imageclipTool');
+								$api.css(toolDom, 'display:block');
+								var winWidth = api.winWidth;
+								var winHeight = api.winHeight;
+								imageClip.open({
+									path : ret.data,
+									h : winHeight - 45,
+									clipRect : {
+										x : 20,
+										y : (winHeight - winWidth ) / 2 - 20,
+										w : winWidth - 40,
+										h : winWidth - 40
+									}
+								}, function(ret, err) {
+								});
+								//								api.sendEvent({
+								//									name : 'circleLogoClipClose',
+								//									extra : {
+								//										key : 'true'
+								//									}
+								//								});
+							}
+						}
+					});
+				} else if (ret.buttonIndex == 2) {
+					//TAKE A PHOTO
+					api.getPicture({
+						sourceType : 'camera',
+						encodingType : 'jpg',
+						mediaValue : 'pic',
+						destinationType : 'url',
+						allowEdit : true,
+						quality : 80,
+						targetWidth : 360
+					}, function(ret, err) {
+						if (ret && ret.data) {
+							if (api.systemType == 'ios') {
+//								api.showProgress({
+//									style : 'default',
+//									animationType : 'fade',
+//									title : '正在上传',
+//									text : '请稍候',
+//									modal : false
+//								});
+								// 拍照返回的本地路径
+								var returnUrl = ret.data;
+								// 图片压缩
+								imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+									var logoImgDom = $api.byId('avatarImg');
+									$api.attr(logoImgDom, 'data-echo', '' + ret.data + '');
+									echo.init({
+										offset : 0,
+										throttle : 250
+									});
+									File.save({
+							file : {
+								isFile : true,
+								path : compressImg,
+								values : {
+									filename : NewGuid() + "." + getNowFormatDate() + '.png'
+								}
+							}
+						}, function(data, err) {
+							//							alert(JSON.stringify(data.url));
+							//拿到返回的服务器图片地址的链接->存到Storage的储存区
+							$api.setStorage('userimg', data.url);
+							api.toast({
+								msg : '头像上传成功',
+								duration : 1000,
+								location : 'top'
+							});
+						});
+								});
+								api.hideProgress();
+								//								} else {
+								//									api.toast({
+								//										msg : '没有选择，或者选择出错'
+								//									});
+								//								}
+								//								var logoImgDom = $api.byId('avatarImg');
+								//								$api.attr(logoImgDom, 'data-echo', '' + ret.data + '');
+								//								echo.init({
+								//									offset : 0,
+								//									throttle : 250
+								//								});
+								//								auiCompress(ret.data, {
+								//									width : 200,
+								//									quantity : 1,
+								//									success : function(ret) {
+								//										var upData = {
+								//											id : 0,
+								//											base64 : ret.base64
+								//										};
+								//										var uploadPhotosUrl = '&c=upload&a=uploadPhotoIn';
+								//										ajaxRequest(uploadPhotosUrl, 'post', upData, function(retIi, errIi) {
+								//											if (retIi) {
+								//												if (retIi.id == 0) {
+								//													var logoDom = $api.byId("avatar");
+								//													$api.val(logoDom, '' + retIi.url + '');
+								//													api.hideProgress();
+								//												}
+								//											}
+								//										})
+								//									}
+								//								});
+							} else {
+								var toolDom = $api.byId('imageclipTool');
+								$api.css(toolDom, 'display:block');
+								var winWidth = api.winWidth;
+								var winHeight = api.winHeight;
+								imageClip.open({
+									path : ret.data,
+									h : winHeight - 45,
+									clipRect : {
+										x : 10,
+										y : (winHeight - winWidth ) / 2 - 10,
+										w : winWidth - 20,
+										h : winWidth - 20
+									}
+								}, function(ret, err) {
+								});
+								//								api.sendEvent({
+								//									name : 'circleLogoClipClose',
+								//									extra : {
+								//										key : 'true'
+								//									}
+								//								});
+							}
+						}
+					});
+				}
+			})
+		}
+	</script>
+</html>

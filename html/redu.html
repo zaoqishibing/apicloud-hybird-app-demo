@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<style>
+			body {
+			}
+			.mui-content > .mui-table-view:first-child {
+				margin-top: 0px;
+			}
+			.mui-bar {
+				-webkit-box-shadow: 1px 0px 3px rgba(0,0,0,0.7);
+				box-shadow: 1px 0px 3px rgba(0,0,0,0.7);
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" id="aui-header" style="height: 1px;"></header>
+		<div class="mui-content" style="padding-top: 0px;margin-top: 0">
+			
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.removeLaunchView({
+				animation : {
+					type : 'none',
+					duration : 500
+				}
+			});
+			api.setRefreshHeaderInfo({
+				visible : true,
+				loadingImg : 'widget://image/refresh.png',
+				bgColor : '#dfdfdf',
+				textColor : '#ccc',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				setTimeout(function() {
+					api.refreshHeaderLoadDone()
+				}, 3000);
+			});
+		
+		var personalCenter = api.require('personalCenter');
+
+var btnArray = [
+    {
+        'bgImg': 'widget://res/personalCenter/personal_btn_nor.png',
+        'selectedImg': 'widget://res/personalCenter/personal_btn_sele.png',
+        'lightImg': 'widget://res/personalCenter/personal_btn_light.png',
+        'title': '好友',
+        'count': '5'
+    },
+    {
+        'bgImg': 'widget://res/personalCenter/personal_btn_nor.png',
+        'selectedImg': 'widget://res/personalCenter/personal_btn_sele.png',
+        'lightImg': 'widget://res/personalCenter/personal_btn_light.png',
+        'title': '回贴',
+        'count': '240'
+    },
+    {
+        'bgImg': 'widget://res/personalCenter/personal_btn_nor.png',
+        'selectedImg': 'widget://res/personalCenter/personal_btn_sele.png',
+        'lightImg': 'widget://res/personalCenter/personal_btn_light.png',
+        'title': '主题',
+        'count': '27'
+    }
+];
+
+var count = 382;
+
+
+
+
+personalCenter.open({
+    'y': 10,
+    'imgPath': 'widget://image/shuijiao.jpg',
+    'placeholderImg': 'widget://image/shuijiao.jpg',
+    'userName': '白子画',
+    'count': count,
+    'modButton': {
+        'bgImg': 'widget://res/personalCenter/mod_normal.png',
+        'lightImg': 'widget://res/personalCenter/mod_click.png'
+    },
+    fixedOn: api.frameName,
+    'btnArray': btnArray
+},function(ret,err){
+    /* 头像修改按钮. */
+    if(btnArray.length === ret.click){
+        api.confirm({
+            title: '聊天盒子',
+            msg: '您想要从哪里选取图片 ?',
+            buttons:['优雅自拍', '相册收藏', '取消']
+        },function(ret,err){
+            var sourceType = 'album';
+
+            if(3 == ret.buttonIndex){ // 取消
+                return;
+            }
+
+            if(1 == ret.buttonIndex){ // 打开相机
+                sourceType = 'camera';
+            }
+
+            api.getPicture({
+                sourceType: sourceType,
+                encodingType: 'png',
+                mediaValue: 'pic'
+            }, function(ret, err){
+                if (ret) {
+                    personalCenter.updateValue({
+                        imgPath: ret.data,
+                        count:count
+                    });
+
+                }
+            });
+
+        });
+
+        return;
+    }
+
+    var msg;
+
+    /* 修改按钮. */
+    if(btnArray.length + 1 == ret.click){
+        msg = '您没有修改权限!';
+    }
+
+    if(btnArray.length + 2 == ret.click){
+        msg = '您没有设置权限!'
+    }
+
+    if(btnArray.length == ret.click){
+        btn = btnArray[ret.click];
+        msg = btn.title + ' 数量为 ' + btn.count
+    }
+
+    api.toast({
+        msg: msg,
+        duration: 1000,
+        location: 'top'
+    });
+});
+		
+		
+		};
+		function scene (){
+		var dialogBox = api.require('dialogBox');
+dialogBox.scene ({
+    rect: {                            
+        w: 280,                            
+        h: 400                             
+    },
+    texts: {
+//      title: '情景1',          
+//      content:'火车售票处前的队伍蜿蜒纵横，旁边一小伙一边张望，一边将手伸向前面买票人的口袋，啊，是小偷!',         
+        okBtnTitle: '取消'
+    },
+    styles: {
+        bg:'#fff',
+        title:{     
+            bg: '#fff',     
+            h: 1,            
+            size: 14,        
+            color: '#000'    
+        },
+//      sceneImg: {
+//          h: 150,          
+//          path: 'widget://image/sceneImg.png'        
+//      },
+//      content:{
+//          color: '#111',                     
+//          size: 12        
+//      },
+        cell: {      
+            bg: '#fff',                    
+            h: 48,                         
+            text: {                        
+                color: '#333',          
+                size: 17                
+            },
+        },
+      
+    },
+    optionDatas: [
+        {           
+                     
+            text: '收藏'            
+        },
+        {       
+          
+            text: '关注TA'            
+        },
+        {       
+            text: '关注该分类'            
+        }, {       
+          
+            text: '屏蔽TA'            
+        }, {       
+          
+            text: '屏蔽该分类'            
+        }, {       
+          
+            text: '举报'            
+        }, {       
+          
+            text: '取消'            
+        }
+    ]
+}, function(ret, err){
+    if( ret ){
+        alert(JSON.stringify(ret));
+         var dialogBox = api.require('dialogBox');
+        dialogBox.close ({
+            dialogName: 'scene'
+        });
+    }else{
+        alert(JSON.stringify(err));
+         var dialogBox = api.require('dialogBox');
+        dialogBox.close ({
+            dialogName: 'scene'
+        });
+    }
+});
+		
+		}
+		function ceshi(){
+		var dialogBox = api.require('dialogBox');
+dialogBox.alert ({
+    texts: {
+        title: '确认',          
+        content:'送你一个超级礼包，内有超值福利，先到先得，点击领取 >>',           
+        leftBtnTitle: '取消',   
+        rightBtnTitle: '确认'
+    },
+    styles:{
+        bg: '#fff',
+        w: 300,
+        title:{   
+            marginT : 20,
+            icon : 'widget://res/gou.png',
+            iconSize : 40,
+            titleSize : 14,
+            titleColor : '#000' 
+        },
+        content:{  
+            color: '#000',         
+            size: 14          
+        },
+        left:{            
+            marginB: 7,      
+            marginL: 20,     
+            w: 120,           
+            h: 35,
+            corner: 2,       
+            bg: '#e0e',   
+            size: 12    
+        },
+        right:{            
+            marginB: 7,      
+            marginL: 20,      
+            w: 120,           
+            h: 35,
+            corner: 2,       
+            bg: '#e0e',   
+            size: 12    
+        }
+    }
+},function(ret){
+
+    if (ret.eventType == 'left') {
+        var dialogBox = api.require('dialogBox');
+        dialogBox.close ({
+            dialogName: 'alert'
+        });
+    }
+});
+		
+		
+		
+		
+		}
+	</script>
+</html>

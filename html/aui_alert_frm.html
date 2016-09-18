@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+	</head>
+	<style>
+		* {
+			margin: 0;
+		}
+		/*这里是底层遮罩事件无法透传的主要原因（就是body的onclick事件），加上后才可以透传*/
+		html, body {
+			height: 100%;
+			width: 100%;
+		}
+		ul, li {
+			list-style: none;
+		}
+		a {
+			text-decoration: none;
+		}
+		body {
+			/*background: transparent;*/
+			background: rgba(0,0,0,0.3);
+			overflow: hidden;
+		}
+		#aui-box {
+			position: absolute;
+			height: auto;
+			/*width:80%;*/
+			top: 10%;
+			/*left:50%;*/
+			margin-left: -40%;
+			background: #ffffff;
+			z-index: 2;
+			overflow: hidden;
+			opacity: 0;
+		}
+		#aui-box.fadeIn {
+			opacity: 1;
+			/*-webkit-animation: fadeIn .3s;*/
+		}
+		#aui-box-header {
+			/*padding: 10px 15px 0 15px;*/
+			text-align: center;
+			font-size: 1em;
+		}
+		#aui-box-body {
+			/*padding: 15px;*/
+			overflow: hidden;
+			font-size: 0.875em;
+		}
+		#aui-box-footer {
+			position: relative;
+			overflow: hidden;
+			font-size: 1em;
+		}
+		.aui-box-btn {
+			float: left;
+			text-align: center;
+			position: relative;
+			padding: 15px 0;
+			z-index: 999;
+		}
+		.aui-box-btn:after {
+			border-right: 1px solid #dbdbdb;
+			border-top: 1px solid #dbdbdb;
+			display: block;
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scale(1);
+			pointer-events: none;
+		}
+		.aui-box-btn:last-child:after {
+			border-right: 0;
+		}
+
+			/*
+			 1px优化，是设备上物理像素和设备独立像素，设备像素比率。only(限定某种设备)
+			 screen 是媒体类型里的一种
+			 and 被称为关键字，其他关键字还包括 not(排除某种设备)
+			 */
+
+		@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+			#aui-box-footer:after, .aui-box-btn:after {
+				right: -100%;
+				bottom: -100%;
+				-webkit-transform: scale(0.5);
+			}
+		}
+		@-webkit-keyframes fadeIn {
+		0% { background: rgba(0,0,0,0);opacity: 0;}
+		100% { opacity: 1; }
+		}
+	</style>
+	<!--父元素与子元素同时加上tapmode，在子元素函数前加上onclick="event.stopPropagation();btnClick('+i+')"阻止事件冒泡；-->
+	<body tapmode id='body1' onclick="api.closeFrame();">
+		<div id="aui-box">
+			<div id="aui-box-header"></div>
+			<div id="aui-box-tag"></div>
+			<div id="aui-box-body"></div>
+			<div id="aui-box-footer"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			var title = api.pageParam.title;
+			var width = api.pageParam.width;
+			var tag = api.pageParam.tag;
+			var content = api.pageParam.content;
+			var radius = api.pageParam.radius;
+			var buttons = api.pageParam.buttons;
+			var titleColor = api.pageParam.titleColor;
+			var contColor = api.pageParam.contColor;
+			var btnColor = api.pageParam.btnColor;
+			
+			//			$api.removeAttr(body, 'onclick');
+			//		document.getElementById('body1').onclick=function(){return false;};
+			//			alert($api.attr(body, 'onclick'));
+			//			$api.attr(body, 'onclick','api.closeFrame();');
+			//			alert($api.attr(body, 'onclick'));
+			//			if(model){
+			//
+			////			document.getElementById('body').onclick=null;不管用
+			////			document.getElementById('body').disabled =false;不管用
+			////			document.getElementById('body1').onclick=function(){return false;}
+			//			var body = $api.byId('body1');
+			//
+			//			$api.removeAttr(body, 'onclick');
+			//			alert(1);
+			//
+			//			}
+			if (width == 80) {
+				document.getElementById('body1').onclick = function() {
+					return false;
+				};
+				//			document.getElementById('body1').onclick=function(){close();};
+			}
+			if (title) {
+				$api.css($api.byId('aui-box-header'), 'padding: 15px 15px 0 15px;');
+				$api.text($api.byId('aui-box-header'), title);
+			}
+			if (tag) {
+				$api.css($api.byId('aui-box-tag'), 'padding: 5px  0px;');
+				var tagHtml = '';
+				for (var i in tag) {
+					tagHtml += '<li  class="mui-table-view mui-table-view-cell" id="tag-' + i + '" data-status="1" tapmode="anxia" onclick="event.stopPropagation();btnClick(' + i + ')">' + tag[i] + '</li>';
+				}
+				$api.html($api.byId('aui-box-tag'), tagHtml);
+			}
+			if (content) {
+				$api.css($api.byId('aui-box-body'), 'padding: 10px;');
+				$api.html($api.byId('aui-box-body'), content);
+			}
+			$api.css($api.byId('aui-box-header'), 'color:' + titleColor + '');
+			if (buttons) {
+				var btnHtml = '';
+				var btnWidth = 100 / buttons.length;
+				for (var i in buttons) {
+					btnHtml += '<div class="aui-box-btn" id="btn-' + i + '" data-status="1" tapmode onclick="event.stopPropagation();btnClick(' + i + ')" style="color:' + btnColor + ';width:' + btnWidth + '%">' + buttons[i] + '</div>';
+				}
+				$api.html($api.byId("aui-box-footer"), btnHtml);
+			}
+			var frameHeight = api.frameHeight;
+			var boxHeight = $api.offset($api.byId("aui-box")).h;
+			if (frameHeight - boxHeight > 100) {
+				var boxTop = (frameHeight - boxHeight) / 2;
+				if (boxTop < 50) {
+					boxTop = 100;
+				}
+				var contMaxHeight = frameHeight / 3;
+			} else {
+				var contMaxHeight = frameHeight / 3;
+				var boxTop = (frameHeight - contMaxHeight) / 3;
+			}
+			var left = (100 - width) / 2 + 40;
+			$api.css($api.byId("aui-box-body"), "max-height:" + contMaxHeight + "px;color:" + contColor + "");
+			$api.css($api.byId("aui-box"), "width:" + width + "%;left:" + left + "%;top:" + boxTop + "px;opacity:1;border-radius:" + radius + "px");
+			$api.addCls($api.byId("aui-box"), "fadeIn");
+			api.parseTapmode();
+		}
+		function btnClick(index) {
+			api.sendEvent({
+				name : 'auiAlertEvent',
+				extra : {
+					buttonIndex : index
+				}
+			});
+			//			document.getElementById('body1').onclick=api.closeFrame();
+			//		document.getElementById('body1').onclick=function(){return false;}
+			api.closeFrame();
+		}
+
+		function close() {
+			api.closeFrame();
+		}
+	</script>
+</html>

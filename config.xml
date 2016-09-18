@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6998037533225" version="0.0.1"> 
+  <name>消息圈</name>  
+  <description>正式版</description>  
+  <author email="1050782398@qq.com" href="http://www.apicloud.com">早起是病</author>  
+  <content src="panduan.html"/>  
+  <preference name="pageBounce" value="false"/>  
+  <preference name="appBackground" value="rgba(0,0,0,0.0)"/>  
+  <preference name="windowBackground" value="rgba(0,0,0,0.0)"/>  
+  <preference name="frameBackgroundColor" value="rgba(0,0,0,0,0)"/>  
+  <preference name="hScrollBarEnabled" value="false"/>  
+  <preference name="vScrollBarEnabled" value="false"/>  
+  <preference name="autoLaunch" value="false"/>  
+  <preference name="fullScreen" value="false"/>  
+  <preference name="autoUpdate" value="true"/>  
+  <preference name="smartUpdate" value="false"/>  
+  <preference name="debug" value="true"/>  
+  <preference name="statusBarAppearance" value="false"/>  
+  <permission name="readPhoneState"/>  
+  <permission name="camera"/>  
+  <permission name="record"/>  
+  <permission name="location"/>  
+  <permission name="fileSystem"/>  
+  <permission name="internet"/>  
+  <permission name="bootCompleted"/>  
+  <permission name="hardware"/>  
+  <access origin="*"/>  
+  <feature name="smsVerify"> 
+    <param name="android_app_key" value="f9ef8c3c06c8"/>  
+    <param name="android_app_secret" value="7b77f8d35f447e410a7253fdd49dd88d"/>  
+    <param name="ios_app_key" value="f9f03bce75e0"/>  
+    <param name="ios_app_secret" value="07f6df4c8bfa1b40068ddce2a46a932c"/> 
+  </feature>  
+  <feature name="ajpush"> 
+    <param name="app_key" value="ff8398e90add3b59fa7e1bc0"/>  
+    <param name="channel" value="a5dd7472e2ef7c0d193d0c68"/> 
+  </feature>  
+  <feature name="bMap"> 
+    <param name="android_api_key" value="wAKElEBuj0zBoGdtqmcgZCMG"/>  
+    <param name="ios_api_key" value="wpi7M6KFAxTE4OVaQKw5Ukaj"/> 
+  </feature>  
+  <feature name="rongCloud2"> 
+    <param name="appKey" value="uwd1c0sxd9wd1"/> 
+  </feature> 
+</widget>
