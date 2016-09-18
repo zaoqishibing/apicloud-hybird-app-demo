@@ -10,7 +10,6 @@
 ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-11-55-38.png)  
 ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-11-56-13.png)  ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-11-56-36.png)  ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-11-56-47.png)  ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-12-30-53.png) 
 ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/Screenshot_2016-09-18-12-32-35.png)  
-
-二维码
+#二维码
 ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/android.png)  
 ![](https://github.com/zaoqishibing/apicloud-hybird-app-demo/raw/master/screen/ios.png)  
